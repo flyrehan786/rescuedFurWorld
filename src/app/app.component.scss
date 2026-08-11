@@ -6,7 +6,11 @@
   pointer-events: none;
 }
 
-app-header,
+app-header {
+  position: relative;
+  z-index: 10;
+}
+
 .page,
 app-footer {
   position: relative;
