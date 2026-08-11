@@ -1,0 +1,148 @@
+<section id="home" class="hero">
+  <div class="container hero__inner hero__inner--intro">
+    <span class="eyebrow">Rescue &middot; Recover &middot; Rehome</span>
+    <h1 class="hero__title">The story of RescuedFurWorld</h1>
+    <p class="hero__subtitle">
+      From scared strays to healthy, happy cats &mdash; follow the real journey of every rescue,
+      every vet visit, and every milestone along the way.
+    </p>
+    <div class="hero__actions">
+      <a href="#cats" class="btn btn--primary">Meet the cats</a>
+      <a href="#about" class="btn btn--outline">Our story</a>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="section about" appReveal>
+  <div class="container about__inner">
+    <span class="eyebrow">About</span>
+    <h2>Why RescuedFurWorld exists</h2>
+
+    <p>
+      What started as taking in one stray cat has grown into a full-time labor of love. RescuedFurWorld
+      is a home for cats who needed a second chance &mdash; whether that meant a warm meal, a safe
+      place to sleep, or months of veterinary care to recover from injury and illness.
+    </p>
+    <p>
+      Every cat that comes through our door has a story: how they were found, the health issues they
+      faced, the vet visits and treatments along the way, and the milestones that mark their recovery.
+      This site is where we document that journey &mdash; honestly and completely &mdash; so their
+      progress isn't forgotten and so other rescuers can see what real recovery looks like.
+    </p>
+    <p>
+      Alongside this site, we share the day-to-day moments on YouTube and Facebook: check-ups,
+      surgeries, quiet recovery days, and the joyful milestones when a once-scared cat finally learns
+      to trust again.
+    </p>
+
+    <div class="about__values">
+      <div class="about__value card" appReveal>
+        <h3>Transparency</h3>
+        <p>Every health update, good or difficult, is documented honestly.</p>
+      </div>
+      <div class="about__value card" appReveal style="transition-delay: 0.1s">
+        <h3>Patience</h3>
+        <p>Recovery takes time. We let every cat heal at their own pace.</p>
+      </div>
+      <div class="about__value card" appReveal style="transition-delay: 0.2s">
+        <h3>Community</h3>
+        <p>Followers on YouTube and Facebook are part of every cat's journey.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cats" class="section section--muted" appReveal>
+  <div class="container">
+    <span class="eyebrow">Our Cats</span>
+    <h2>Meet the cats &amp; their health journeys</h2>
+    <p class="section__lead">Tap a cat to open their full story &mdash; from rescue day to today.</p>
+
+    <div class="cat-list">
+      <div *ngFor="let cat of cats; let i = index" class="cat-entry card" appReveal [style.transition-delay.s]="i * 0.1">
+        <button
+          type="button"
+          class="cat-entry__summary"
+          (click)="toggleCat(cat.id)"
+          [attr.aria-expanded]="expandedCatId === cat.id"
+        >
+          <span class="cat-entry__photo">{{ cat.emoji }}</span>
+          <span class="cat-entry__info">
+            <span class="cat-card__status">{{ cat.status }}</span>
+            <h3>{{ cat.name }}</h3>
+            <p>{{ cat.tagline }}</p>
+          </span>
+          <span class="cat-entry__toggle" [class.cat-entry__toggle--open]="expandedCatId === cat.id">+</span>
+        </button>
+
+        <div class="cat-entry__details" *ngIf="expandedCatId === cat.id">
+          <p class="cat-detail__bio">{{ cat.bio }}</p>
+          <p class="cat-detail__rescue-date">Rescued on {{ cat.rescueDate | date: 'longDate' }}</p>
+
+          <ol class="timeline">
+            <li *ngFor="let event of cat.healthJourney" class="timeline__item">
+              <div class="timeline__icon">{{ iconFor(event.type) }}</div>
+              <div class="timeline__content card">
+                <span class="timeline__date">{{ event.date | date: 'mediumDate' }}</span>
+                <h4>{{ event.title }}</h4>
+                <p>{{ event.description }}</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section watch-follow-section" appReveal>
+  <div class="container watch-follow">
+    <div>
+      <span class="eyebrow">Watch &amp; follow</span>
+      <h2>See the full journeys on video</h2>
+      <p class="section__lead">
+        Vet visits, recovery updates, and everyday cat life &mdash; all documented on our channel and page.
+      </p>
+    </div>
+    <div class="watch-follow__links">
+      <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="btn btn--primary">Watch on YouTube</a>
+      <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="btn btn--outline">Follow on Facebook</a>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="section section--muted contact" appReveal>
+  <div class="container contact__inner">
+    <span class="eyebrow">Contact &amp; Support</span>
+    <h2>Get in touch, or help us help them</h2>
+    <p class="section__lead">
+      Follow the cats' journeys, reach out with questions, or support ongoing vet care.
+    </p>
+
+    <div class="contact-grid">
+      <a class="contact-card card" href="mailto:hello@rescuedfurworld.com" appReveal>
+        <span class="contact-card__icon">✉️</span>
+        <h3>Email</h3>
+        <p>hello&#64;rescuedfurworld.com</p>
+      </a>
+
+      <a class="contact-card card" href="https://youtube.com" target="_blank" rel="noopener noreferrer" appReveal style="transition-delay: 0.1s">
+        <span class="contact-card__icon">▶️</span>
+        <h3>YouTube</h3>
+        <p>Watch full recovery journeys</p>
+      </a>
+
+      <a class="contact-card card" href="https://facebook.com" target="_blank" rel="noopener noreferrer" appReveal style="transition-delay: 0.2s">
+        <span class="contact-card__icon">📘</span>
+        <h3>Facebook</h3>
+        <p>Daily updates &amp; photos</p>
+      </a>
+
+      <a class="contact-card card" href="#" target="_blank" rel="noopener noreferrer" appReveal style="transition-delay: 0.3s">
+        <span class="contact-card__icon">💛</span>
+        <h3>Support the cats</h3>
+        <p>Help cover vet bills &amp; care</p>
+      </a>
+    </div>
+  </div>
+</section>

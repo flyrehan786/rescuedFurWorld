@@ -1,0 +1,24 @@
+<header class="header">
+  <div class="header__inner">
+    <a href="#home" class="header__brand" (click)="closeMenu()">
+      <span class="header__logo">🐾</span>
+      <span class="header__name">RescuedFurWorld</span>
+    </a>
+
+    <button
+      class="header__toggle"
+      type="button"
+      aria-label="Toggle navigation menu"
+      (click)="toggleMenu()"
+    >
+      ☰
+    </button>
+
+    <nav class="header__nav" [class.open]="menuOpen">
+      <a href="#home" class="header__link" (click)="closeMenu()">Home</a>
+      <a href="#about" class="header__link" (click)="closeMenu()">About</a>
+      <a href="#cats" class="header__link" (click)="closeMenu()">Our Cats</a>
+      <a href="#contact" class="header__link" (click)="closeMenu()">Contact &amp; Support</a>
+    </nav>
+  </div>
+</header>
