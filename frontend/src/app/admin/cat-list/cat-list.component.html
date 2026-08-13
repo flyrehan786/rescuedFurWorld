@@ -1,0 +1,38 @@
+<div class="cat-manage">
+  <div class="cat-manage__header">
+    <div>
+      <span class="eyebrow">Cat catalog</span>
+      <h1>Manage cats</h1>
+    </div>
+    <a routerLink="/admin/cats/new" class="btn btn--primary">+ Add new cat</a>
+  </div>
+
+  <div class="alert alert--error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <p *ngIf="loading">Loading cats…</p>
+
+  <p *ngIf="!loading && cats.length === 0">No cats yet. Add your first rescue story.</p>
+
+  <div class="cat-manage__list" *ngIf="!loading && cats.length > 0">
+    <div class="cat-manage__row card" *ngFor="let cat of cats">
+      <span class="cat-manage__emoji">{{ cat.emoji }}</span>
+      <div class="cat-manage__info">
+        <span class="cat-card__status">{{ cat.status }}</span>
+        <h3>{{ cat.name }}</h3>
+        <p>{{ cat.tagline }}</p>
+      </div>
+      <div class="cat-manage__actions">
+        <a [routerLink]="['/admin/cats', cat.id, 'preview']" class="btn btn--outline btn--small">Preview</a>
+        <a [routerLink]="['/admin/cats', cat.id, 'edit']" class="btn btn--outline btn--small">Edit</a>
+        <button
+          type="button"
+          class="btn btn--danger btn--small"
+          [disabled]="deletingId === cat.id"
+          (click)="deleteCat(cat)"
+        >
+          {{ deletingId === cat.id ? 'Deleting…' : 'Delete' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

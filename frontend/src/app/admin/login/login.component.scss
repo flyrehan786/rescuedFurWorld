@@ -1,0 +1,20 @@
+.login {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg);
+  padding: 1.5rem;
+}
+
+.login__card {
+  width: 100%;
+  max-width: 380px;
+  padding: 2rem;
+}
+
+.login__card button {
+  width: 100%;
+  justify-content: center;
+  margin-top: 0.5rem;
+}

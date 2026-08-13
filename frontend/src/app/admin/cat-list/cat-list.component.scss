@@ -1,0 +1,46 @@
+.cat-manage__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.cat-manage__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.cat-manage__row {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1rem 1.25rem;
+}
+
+.cat-manage__emoji {
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.cat-manage__info {
+  flex: 1;
+}
+
+.cat-manage__info h3 {
+  margin: 0 0 0.15rem;
+}
+
+.cat-manage__info p {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.cat-manage__actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}

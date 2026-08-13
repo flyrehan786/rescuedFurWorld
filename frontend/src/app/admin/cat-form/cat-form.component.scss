@@ -1,0 +1,53 @@
+.cat-form__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0 1.25rem;
+}
+
+.cat-form ::ng-deep .ql-container {
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  min-height: 180px;
+  font-size: 1rem;
+  background: var(--color-surface);
+}
+
+.cat-form ::ng-deep .ql-toolbar {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  background: var(--color-surface);
+}
+
+.cat-form__section {
+  margin: 2rem 0;
+}
+
+.cat-form__section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.cat-form__event {
+  padding: 1rem 1.25rem;
+  margin-bottom: 0.85rem;
+}
+
+.cat-form__event-grid {
+  display: grid;
+  grid-template-columns: 160px 160px 1fr;
+  gap: 0 1.25rem;
+}
+
+@media (max-width: 640px) {
+  .cat-form__event-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cat-form__actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}

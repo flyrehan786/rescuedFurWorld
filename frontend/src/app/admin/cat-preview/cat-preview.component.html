@@ -1,0 +1,30 @@
+<div class="cat-preview">
+  <div class="cat-preview__header">
+    <span class="eyebrow">Public preview</span>
+    <a routerLink="/admin/cats" class="btn btn--outline btn--small">Back to cats</a>
+  </div>
+
+  <p *ngIf="loading">Loading…</p>
+  <div class="alert alert--error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <div class="cat-preview__card card" *ngIf="cat">
+    <span class="cat-preview__emoji">{{ cat.emoji }}</span>
+    <span class="cat-card__status">{{ cat.status }}</span>
+    <h1>{{ cat.name }}</h1>
+    <p class="cat-preview__tagline">{{ cat.tagline }}</p>
+
+    <div class="cat-preview__bio" [innerHTML]="cat.bio"></div>
+    <p class="form-hint">Rescued on {{ cat.rescueDate | date: 'longDate' }}</p>
+
+    <ol class="timeline">
+      <li *ngFor="let event of cat.healthJourney" class="timeline__item">
+        <div class="timeline__icon">{{ iconFor(event.type) }}</div>
+        <div class="timeline__content card">
+          <span class="timeline__date">{{ event.date | date: 'mediumDate' }}</span>
+          <h4>{{ event.title }}</h4>
+          <p>{{ event.description }}</p>
+        </div>
+      </li>
+    </ol>
+  </div>
+</div>

@@ -1,0 +1,89 @@
+<div class="cat-form">
+  <span class="eyebrow">{{ isEditMode ? 'Edit cat' : 'Add a new cat' }}</span>
+  <h1>{{ isEditMode ? form.value.name || 'Edit cat' : 'Add a new cat' }}</h1>
+
+  <div class="alert alert--error" *ngIf="errorMessage">{{ errorMessage }}</div>
+  <p *ngIf="loading">Loading…</p>
+
+  <form *ngIf="!loading" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="cat-form__grid">
+      <div class="form-field">
+        <label for="name">Name</label>
+        <input id="name" type="text" formControlName="name" />
+      </div>
+
+      <div class="form-field">
+        <label for="emoji">Emoji / photo placeholder</label>
+        <input id="emoji" type="text" formControlName="emoji" />
+      </div>
+
+      <div class="form-field">
+        <label for="rescueDate">Rescue date</label>
+        <input id="rescueDate" type="date" formControlName="rescueDate" />
+      </div>
+
+      <div class="form-field">
+        <label for="status">Status</label>
+        <select id="status" formControlName="status">
+          <option *ngFor="let status of statuses" [value]="status">{{ status }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label for="tagline">Short tagline</label>
+      <input id="tagline" type="text" formControlName="tagline" />
+    </div>
+
+    <div class="form-field">
+      <label>Full story / bio</label>
+      <quill-editor
+        formControlName="bio"
+        [modules]="quillModules"
+        placeholder="Tell this cat's rescue story… you can bold, italicize, and paste in photos."
+        (onEditorCreated)="onEditorCreated($event)"
+      ></quill-editor>
+      <span class="form-hint">Use the toolbar to format text, or paste an image directly into the editor.</span>
+    </div>
+
+    <div class="cat-form__section">
+      <div class="cat-form__section-header">
+        <h2>Health journey</h2>
+        <button type="button" class="btn btn--outline btn--small" (click)="addEvent()">+ Add event</button>
+      </div>
+
+      <div class="cat-form__event card" *ngFor="let event of healthJourney.controls; let i = index" [formGroup]="$any(event)">
+        <div class="cat-form__event-grid">
+          <div class="form-field">
+            <label>Date</label>
+            <input type="date" formControlName="date" />
+          </div>
+          <div class="form-field">
+            <label>Type</label>
+            <select formControlName="type">
+              <option *ngFor="let type of eventTypes" [value]="type">{{ type }}</option>
+            </select>
+          </div>
+          <div class="form-field cat-form__event-title">
+            <label>Title</label>
+            <input type="text" formControlName="title" />
+          </div>
+        </div>
+        <div class="form-field">
+          <label>Description</label>
+          <textarea rows="2" formControlName="description"></textarea>
+        </div>
+        <button type="button" class="btn btn--danger btn--small" (click)="removeEvent(i)">Remove event</button>
+      </div>
+
+      <p class="form-hint" *ngIf="healthJourney.length === 0">No health journey events yet — add rescue, checkups, treatments, or milestones.</p>
+    </div>
+
+    <div class="cat-form__actions">
+      <a routerLink="/admin/cats" class="btn btn--outline">Cancel</a>
+      <button type="submit" class="btn btn--primary" [disabled]="saving">
+        {{ saving ? 'Saving…' : 'Save cat' }}
+      </button>
+    </div>
+  </form>
+</div>

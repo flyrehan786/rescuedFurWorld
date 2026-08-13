@@ -76,7 +76,7 @@
         </button>
 
         <div class="cat-entry__details" *ngIf="expandedCatId === cat.id">
-          <p class="cat-detail__bio">{{ cat.bio }}</p>
+          <div class="cat-detail__bio" [innerHTML]="cat.bio"></div>
           <p class="cat-detail__rescue-date">Rescued on {{ cat.rescueDate | date: 'longDate' }}</p>
 
           <ol class="timeline">

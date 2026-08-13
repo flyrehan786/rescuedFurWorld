@@ -5,6 +5,7 @@
     {
       "type": "npm",
       "script": "start",
+      "path": "frontend",
       "isBackground": true,
       "problemMatcher": {
         "owner": "typescript",
@@ -23,6 +24,7 @@
     {
       "type": "npm",
       "script": "test",
+      "path": "frontend",
       "isBackground": true,
       "problemMatcher": {
         "owner": "typescript",
@@ -34,6 +36,25 @@
           },
           "endsPattern": {
             "regexp": "bundle generation complete"
+          }
+        }
+      }
+    },
+    {
+      "type": "npm",
+      "script": "start",
+      "path": "backend",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "typescript",
+        "pattern": "$tsc",
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": {
+            "regexp": "(.*?)"
+          },
+          "endsPattern": {
+            "regexp": "listening|running"
           }
         }
       }

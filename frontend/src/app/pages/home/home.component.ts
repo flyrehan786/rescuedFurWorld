@@ -1,14 +1,24 @@
-import { Component } from '@angular/core';
-import { CATS } from '../../data/cats.data';
+import { Component, OnInit } from '@angular/core';
+import { Cat } from '../../models/cat.model';
+import { CatsService } from '../../services/cats.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent {
-  cats = CATS;
+export class HomeComponent implements OnInit {
+  cats: Cat[] = [];
   expandedCatId: string | null = null;
+
+  constructor(private catsService: CatsService) {}
+
+  ngOnInit(): void {
+    this.catsService.getCats().subscribe({
+      next: (cats) => (this.cats = cats),
+      error: () => (this.cats = [])
+    });
+  }
 
   toggleCat(id: string): void {
     this.expandedCatId = this.expandedCatId === id ? null : id;

@@ -1,0 +1,33 @@
+<div class="settings">
+  <span class="eyebrow">Account</span>
+  <h1>Change password</h1>
+
+  <div class="alert alert--error" *ngIf="errorMessage">{{ errorMessage }}</div>
+  <div class="alert alert--success" *ngIf="successMessage">{{ successMessage }}</div>
+
+  <form class="settings__card card" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="form-field">
+      <label for="currentPassword">Current password</label>
+      <input id="currentPassword" type="password" formControlName="currentPassword" autocomplete="current-password" />
+    </div>
+
+    <div class="form-field">
+      <label for="newPassword">New password</label>
+      <input id="newPassword" type="password" formControlName="newPassword" autocomplete="new-password" />
+      <span class="form-hint">At least 6 characters.</span>
+    </div>
+
+    <div class="form-field">
+      <label for="confirmPassword">Confirm new password</label>
+      <input id="confirmPassword" type="password" formControlName="confirmPassword" autocomplete="new-password" />
+    </div>
+
+    <div class="alert alert--error" *ngIf="form.errors?.['mismatch'] && form.get('confirmPassword')?.touched">
+      New password and confirmation do not match.
+    </div>
+
+    <button type="submit" class="btn btn--primary" [disabled]="saving">
+      {{ saving ? 'Saving…' : 'Update password' }}
+    </button>
+  </form>
+</div>
