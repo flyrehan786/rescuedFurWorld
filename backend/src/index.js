@@ -25,6 +25,10 @@ app.use('/api/upload', uploadRoutes);
 
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
 
-app.listen(PORT, () => {
-  console.log(`RescuedFurWorld API server running at http://localhost:${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`RescuedFurWorld API server running at http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;
