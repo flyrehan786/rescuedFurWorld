@@ -6,15 +6,37 @@
   <p *ngIf="loading">Loading…</p>
 
   <form *ngIf="!loading" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="form-field">
+      <label>Cat photo</label>
+      <div class="photo-upload">
+        <div class="photo-upload__preview">
+          <img *ngIf="form.value.photo; else photoPlaceholder" [src]="form.value.photo" alt="Cat photo preview" />
+          <ng-template #photoPlaceholder>
+            <span class="photo-upload__emoji">{{ form.value.emoji || '🐱' }}</span>
+          </ng-template>
+          <span class="photo-upload__spinner" *ngIf="uploadingPhoto"></span>
+        </div>
+        <div class="photo-upload__actions">
+          <label class="btn btn--outline btn--small">
+            {{ uploadingPhoto ? 'Uploading…' : (form.value.photo ? 'Change photo' : 'Upload photo') }}
+            <input
+              type="file"
+              accept="image/png,image/jpeg,image/gif,image/webp"
+              [disabled]="uploadingPhoto"
+              (change)="onPhotoSelected($event)"
+              hidden
+            />
+          </label>
+          <button type="button" class="btn btn--danger btn--small" *ngIf="form.value.photo" (click)="removePhoto()">Remove</button>
+        </div>
+      </div>
+      <span class="form-hint" [class.form-hint--error]="photoError">{{ photoError || 'PNG, JPEG, GIF, or WEBP. Max 5MB.' }}</span>
+    </div>
+
     <div class="cat-form__grid">
       <div class="form-field">
         <label for="name">Name</label>
         <input id="name" type="text" formControlName="name" />
-      </div>
-
-      <div class="form-field">
-        <label for="emoji">Emoji / photo placeholder</label>
-        <input id="emoji" type="text" formControlName="emoji" />
       </div>
 
       <div class="form-field">
@@ -81,9 +103,15 @@
 
     <div class="cat-form__actions">
       <a routerLink="/admin/cats" class="btn btn--outline">Cancel</a>
-      <button type="submit" class="btn btn--primary" [disabled]="saving">
-        {{ saving ? 'Saving…' : 'Save cat' }}
-      </button>
+      <div class="save-tooltip-anchor">
+        <div class="save-tooltip" *ngIf="showSavedTooltip">
+          <span class="save-tooltip__icon">✓</span>
+          Saved successfully!
+        </div>
+        <button type="submit" class="btn btn--primary" [disabled]="saving">
+          {{ saving ? 'Saving…' : 'Save cat' }}
+        </button>
+      </div>
     </div>
   </form>
 </div>

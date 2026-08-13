@@ -24,6 +24,7 @@ function sanitizeCatPayload(body) {
   return {
     name: String(body.name || '').trim(),
     emoji: String(body.emoji || '🐱').trim(),
+    photo: String(body.photo || '').trim(),
     tagline: String(body.tagline || '').trim(),
     bio: String(body.bio || ''),
     rescueDate: String(body.rescueDate || ''),
@@ -32,9 +33,27 @@ function sanitizeCatPayload(body) {
   };
 }
 
-// Public: list all cats
+// Public: list all cats (supports optional server-side pagination via ?page=&pageSize=)
 router.get('/', (req, res) => {
-  res.json(db.get('cats').value());
+  const all = db.get('cats').value();
+
+  if (req.query.page === undefined && req.query.pageSize === undefined) {
+    return res.json(all);
+  }
+
+  const total = all.length;
+  const pageSize = Math.max(parseInt(req.query.pageSize, 10) || 10, 1);
+  const totalPages = Math.max(Math.ceil(total / pageSize), 1);
+  const page = Math.min(Math.max(parseInt(req.query.page, 10) || 1, 1), totalPages);
+  const start = (page - 1) * pageSize;
+
+  res.json({
+    items: all.slice(start, start + pageSize),
+    total,
+    page,
+    pageSize,
+    totalPages
+  });
 });
 
 // Public: get a single cat

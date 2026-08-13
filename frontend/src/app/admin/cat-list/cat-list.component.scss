@@ -7,40 +7,199 @@
   flex-wrap: wrap;
 }
 
-.cat-manage__list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.85rem;
+.cat-table-wrap {
+  overflow: hidden;
+  padding: 0;
 }
 
-.cat-manage__row {
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-  padding: 1rem 1.25rem;
+.cat-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
 }
 
-.cat-manage__emoji {
-  font-size: 2.2rem;
+.cat-table thead th {
+  text-align: left;
+  padding: 0.9rem 1.1rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.cat-table__emoji-col {
+  width: 3.5rem;
+}
+
+.cat-table__actions-col {
+  width: 1%;
+}
+
+.cat-table tbody tr {
+  border-bottom: 1px solid var(--color-border);
+  transition: background-color 0.15s ease;
+}
+
+.cat-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.cat-table tbody tr:hover {
+  background: var(--color-bg);
+}
+
+.cat-table td {
+  padding: 0.85rem 1.1rem;
+  vertical-align: middle;
+}
+
+.cat-table__emoji {
+  font-size: 1.6rem;
   line-height: 1;
 }
 
-.cat-manage__info {
-  flex: 1;
+.cat-table__photo {
+  width: 3rem;
+  height: 3rem;
+  padding-right: 0 !important;
 }
 
-.cat-manage__info h3 {
-  margin: 0 0 0.15rem;
+.cat-table__photo img {
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 9px;
+  object-fit: cover;
+  display: block;
 }
 
-.cat-manage__info p {
-  margin: 0;
+.cat-table__name {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.cat-table__tagline {
   color: var(--color-text-muted);
-  font-size: 0.9rem;
+  max-width: 320px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.cat-manage__actions {
+.cat-table__actions {
   display: flex;
-  gap: 0.5rem;
-  flex-shrink: 0;
+  gap: 0.4rem;
+  justify-content: flex-end;
+  white-space: nowrap;
+}
+
+.status-pill {
+  display: inline-block;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.status-pill--thriving {
+  background: #e9f3e9;
+  color: #3d6b3d;
+}
+
+.status-pill--under-care {
+  background: #fdf2e3;
+  color: #a5701f;
+}
+
+.status-pill--looking-for-a-home {
+  background: #eaf1fb;
+  color: #2f5f9e;
+}
+
+.cat-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 1rem 1.25rem;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg);
+}
+
+.cat-pagination__summary {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.cat-pagination__page-size {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+}
+
+.cat-pagination__page-size select {
+  font: inherit;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.cat-pagination__controls {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.cat-pagination__btn {
+  min-width: 2.1rem;
+  height: 2.1rem;
+  padding: 0 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+
+.cat-pagination__btn:hover:not(:disabled) {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  transform: translateY(-1px);
+}
+
+.cat-pagination__btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.cat-pagination__btn--active {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #fff;
+}
+
+@media (max-width: 720px) {
+  .cat-table-wrap {
+    overflow-x: auto;
+  }
+
+  .cat-table {
+    min-width: 640px;
+  }
 }

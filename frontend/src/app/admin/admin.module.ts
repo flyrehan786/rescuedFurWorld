@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { QuillModule } from 'ngx-quill';
 
 import { AdminRoutingModule } from './admin-routing.module';
@@ -20,6 +20,6 @@ import { SettingsComponent } from './settings/settings.component';
     CatPreviewComponent,
     SettingsComponent
   ],
-  imports: [CommonModule, ReactiveFormsModule, QuillModule.forRoot(), AdminRoutingModule]
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, QuillModule.forRoot(), AdminRoutingModule]
 })
 export class AdminModule {}

@@ -1,19 +1,23 @@
 <div class="admin">
   <header class="admin__header">
-    <div class="admin__brand">
-      <a routerLink="/">🐾 RescuedFurWorld</a>
-      <span class="admin__badge">Admin</span>
-    </div>
+    <div class="admin__header-inner">
+      <div class="admin__brand">
+        <a routerLink="/">🐾 RescuedFurWorld</a>
+        <span class="admin__badge">Admin</span>
+      </div>
 
-    <nav class="admin__nav">
-      <a routerLink="/admin/cats" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Cats</a>
-      <a routerLink="/admin/cats/new" routerLinkActive="active">Add cat</a>
-      <a routerLink="/admin/settings" routerLinkActive="active">Settings</a>
-    </nav>
+      <div class="admin__header-right">
+        <nav class="admin__nav">
+          <a routerLink="/admin/cats" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Cats</a>
+          <a routerLink="/admin/cats/new" routerLinkActive="active">Add cat</a>
+          <a routerLink="/admin/settings" routerLinkActive="active">Settings</a>
+        </nav>
 
-    <div class="admin__account">
-      <span *ngIf="username">{{ username }}</span>
-      <button type="button" class="btn btn--outline btn--small" (click)="logout()">Log out</button>
+        <div class="admin__account">
+          <span *ngIf="username">{{ username }}</span>
+          <button type="button" class="btn btn--outline btn--small" (click)="logout()">Log out</button>
+        </div>
+      </div>
     </div>
   </header>
 

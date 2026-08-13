@@ -9,6 +9,7 @@ export interface Cat {
   id: string;
   name: string;
   emoji: string;
+  photo?: string;
   tagline: string;
   bio: string;
   rescueDate: string;

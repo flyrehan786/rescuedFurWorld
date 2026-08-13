@@ -18,6 +18,10 @@ export class CatFormComponent implements OnInit {
   loading = false;
   saving = false;
   errorMessage = '';
+  showSavedTooltip = false;
+
+  uploadingPhoto = false;
+  photoError = '';
 
   eventTypes = EVENT_TYPES;
   statuses = STATUSES;
@@ -38,7 +42,8 @@ export class CatFormComponent implements OnInit {
 
   form: FormGroup = this.fb.group({
     name: ['', Validators.required],
-    emoji: ['🐱', Validators.required],
+    emoji: ['🐱'],
+    photo: [''],
     tagline: ['', Validators.required],
     bio: ['', Validators.required],
     rescueDate: ['', Validators.required],
@@ -67,6 +72,7 @@ export class CatFormComponent implements OnInit {
           this.form.patchValue({
             name: cat.name,
             emoji: cat.emoji,
+            photo: cat.photo || '',
             tagline: cat.tagline,
             bio: cat.bio,
             rescueDate: cat.rescueDate,
@@ -102,6 +108,32 @@ export class CatFormComponent implements OnInit {
 
   removeEvent(index: number): void {
     this.healthJourney.removeAt(index);
+  }
+
+  onPhotoSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file) {
+      return;
+    }
+    this.photoError = '';
+    this.uploadingPhoto = true;
+    this.uploadService.uploadImage(file).subscribe({
+      next: (res) => {
+        this.form.patchValue({ photo: res.url });
+        this.uploadingPhoto = false;
+        input.value = '';
+      },
+      error: () => {
+        this.photoError = 'Photo upload failed. Please try again.';
+        this.uploadingPhoto = false;
+        input.value = '';
+      }
+    });
+  }
+
+  removePhoto(): void {
+    this.form.patchValue({ photo: '' });
   }
 
   onEditorCreated(quill: any): void {
@@ -169,7 +201,11 @@ export class CatFormComponent implements OnInit {
       : this.catsService.createCat(payload);
 
     request$.subscribe({
-      next: () => this.router.navigate(['/admin/cats']),
+      next: () => {
+        this.saving = false;
+        this.showSavedTooltip = true;
+        setTimeout(() => this.router.navigate(['/admin/cats']), 900);
+      },
       error: () => {
         this.saving = false;
         this.errorMessage = 'Could not save this cat. Please check the form and try again.';

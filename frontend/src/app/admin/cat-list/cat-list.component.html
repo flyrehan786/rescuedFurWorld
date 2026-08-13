@@ -13,25 +13,82 @@
 
   <p *ngIf="!loading && cats.length === 0">No cats yet. Add your first rescue story.</p>
 
-  <div class="cat-manage__list" *ngIf="!loading && cats.length > 0">
-    <div class="cat-manage__row card" *ngFor="let cat of cats">
-      <span class="cat-manage__emoji">{{ cat.emoji }}</span>
-      <div class="cat-manage__info">
-        <span class="cat-card__status">{{ cat.status }}</span>
-        <h3>{{ cat.name }}</h3>
-        <p>{{ cat.tagline }}</p>
+  <div class="cat-table-wrap card" *ngIf="!loading && cats.length > 0">
+    <table class="cat-table">
+      <thead>
+        <tr>
+          <th class="cat-table__emoji-col"></th>
+          <th>Name</th>
+          <th>Tagline</th>
+          <th>Status</th>
+          <th>Rescue date</th>
+          <th class="cat-table__actions-col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cat of cats">
+          <td class="cat-table__photo">
+            <img *ngIf="cat.photo; else catEmoji" [src]="cat.photo" [alt]="cat.name" />
+            <ng-template #catEmoji><span class="cat-table__emoji">{{ cat.emoji }}</span></ng-template>
+          </td>
+          <td class="cat-table__name">{{ cat.name }}</td>
+          <td class="cat-table__tagline">{{ cat.tagline }}</td>
+          <td>
+            <span class="status-pill" [ngClass]="'status-pill--' + statusClass(cat.status)">{{ cat.status }}</span>
+          </td>
+          <td>{{ cat.rescueDate }}</td>
+          <td class="cat-table__actions">
+            <a [routerLink]="['/admin/cats', cat.id, 'preview']" class="btn btn--outline btn--small">Preview</a>
+            <a [routerLink]="['/admin/cats', cat.id, 'edit']" class="btn btn--outline btn--small">Edit</a>
+            <button
+              type="button"
+              class="btn btn--danger btn--small"
+              [disabled]="deletingId === cat.id"
+              (click)="deleteCat(cat)"
+            >
+              {{ deletingId === cat.id ? 'Deleting…' : 'Delete' }}
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="cat-pagination">
+      <div class="cat-pagination__summary">
+        Showing <strong>{{ rangeStart }}–{{ rangeEnd }}</strong> of <strong>{{ total }}</strong> cats
+
+        <label class="cat-pagination__page-size">
+          Per page
+          <select [ngModel]="pageSize" (ngModelChange)="changePageSize($event)">
+            <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+          </select>
+        </label>
       </div>
-      <div class="cat-manage__actions">
-        <a [routerLink]="['/admin/cats', cat.id, 'preview']" class="btn btn--outline btn--small">Preview</a>
-        <a [routerLink]="['/admin/cats', cat.id, 'edit']" class="btn btn--outline btn--small">Edit</a>
+
+      <div class="cat-pagination__controls" *ngIf="totalPages > 1">
         <button
           type="button"
-          class="btn btn--danger btn--small"
-          [disabled]="deletingId === cat.id"
-          (click)="deleteCat(cat)"
-        >
-          {{ deletingId === cat.id ? 'Deleting…' : 'Delete' }}
-        </button>
+          class="cat-pagination__btn"
+          [disabled]="page === 1"
+          (click)="goToPage(page - 1)"
+          aria-label="Previous page"
+        >‹</button>
+
+        <button
+          type="button"
+          *ngFor="let p of pages"
+          class="cat-pagination__btn"
+          [class.cat-pagination__btn--active]="p === page"
+          (click)="goToPage(p)"
+        >{{ p }}</button>
+
+        <button
+          type="button"
+          class="cat-pagination__btn"
+          [disabled]="page === totalPages"
+          (click)="goToPage(page + 1)"
+          aria-label="Next page"
+        >›</button>
       </div>
     </div>
   </div>

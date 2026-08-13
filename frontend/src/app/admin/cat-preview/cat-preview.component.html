@@ -8,7 +8,8 @@
   <div class="alert alert--error" *ngIf="errorMessage">{{ errorMessage }}</div>
 
   <div class="cat-preview__card card" *ngIf="cat">
-    <span class="cat-preview__emoji">{{ cat.emoji }}</span>
+    <img *ngIf="cat.photo; else previewEmoji" class="cat-preview__photo" [src]="cat.photo" [alt]="cat.name" />
+    <ng-template #previewEmoji><span class="cat-preview__emoji">{{ cat.emoji }}</span></ng-template>
     <span class="cat-card__status">{{ cat.status }}</span>
     <h1>{{ cat.name }}</h1>
     <p class="cat-preview__tagline">{{ cat.tagline }}</p>

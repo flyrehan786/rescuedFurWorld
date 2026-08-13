@@ -16,6 +16,14 @@
   margin-bottom: 0.5rem;
 }
 
+.cat-preview__photo {
+  width: 96px;
+  height: 96px;
+  border-radius: 14px;
+  object-fit: cover;
+  margin-bottom: 0.5rem;
+}
+
 .cat-preview__tagline {
   color: var(--color-text-muted);
 }

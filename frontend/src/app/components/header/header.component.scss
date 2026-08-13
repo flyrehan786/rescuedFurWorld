@@ -62,6 +62,15 @@
   border-color: var(--color-accent);
 }
 
+.header__link--login {
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+.header__link--login:hover {
+  color: var(--color-accent-dark);
+}
+
 @media (max-width: 720px) {
   .header__toggle {
     display: block;

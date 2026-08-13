@@ -4,6 +4,74 @@
   gap: 0 1.25rem;
 }
 
+.photo-upload {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.photo-upload__preview {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  flex-shrink: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.photo-upload__preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-upload__emoji {
+  font-size: 2.4rem;
+  line-height: 1;
+}
+
+.photo-upload__spinner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.photo-upload__spinner::after {
+  content: '';
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  border: 2px solid var(--color-border);
+  border-top-color: var(--color-accent);
+  animation: photo-upload-spin 0.7s linear infinite;
+}
+
+@keyframes photo-upload-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.photo-upload__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.form-hint--error {
+  color: #b8483a;
+}
+
 .cat-form ::ng-deep .ql-container {
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
@@ -50,4 +118,75 @@
   display: flex;
   gap: 0.75rem;
   margin-top: 1.5rem;
+}
+
+.save-tooltip-anchor {
+  position: relative;
+  display: inline-flex;
+}
+
+.save-tooltip {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, var(--color-success), #3d6b3d);
+  box-shadow: 0 10px 24px -8px rgba(61, 107, 61, 0.55);
+  animation: save-tooltip-pop 0.9s ease forwards;
+  pointer-events: none;
+}
+
+.save-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: #3d6b3d;
+}
+
+.save-tooltip__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  font-size: 0.7rem;
+}
+
+@keyframes save-tooltip-pop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 6px) scale(0.9);
+  }
+  15% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+  80% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -4px) scale(0.98);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .save-tooltip {
+    animation: none;
+  }
 }

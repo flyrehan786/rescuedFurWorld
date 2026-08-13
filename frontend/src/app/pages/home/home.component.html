@@ -1,14 +1,19 @@
 <section id="home" class="hero">
   <div class="container hero__inner hero__inner--intro">
-    <span class="eyebrow">Rescue &middot; Recover &middot; Rehome</span>
-    <h1 class="hero__title">The story of RescuedFurWorld</h1>
-    <p class="hero__subtitle">
-      From scared strays to healthy, happy cats &mdash; follow the real journey of every rescue,
-      every vet visit, and every milestone along the way.
-    </p>
-    <div class="hero__actions">
-      <a href="#cats" class="btn btn--primary">Meet the cats</a>
-      <a href="#about" class="btn btn--outline">Our story</a>
+    <div class="hero__text">
+      <span class="eyebrow">Rescue &middot; Recover &middot; Rehome</span>
+      <h1 class="hero__title">The story of RescuedFurWorld</h1>
+      <p class="hero__subtitle">
+        From scared strays to healthy, happy cats &mdash; follow the real journey of every rescue,
+        every vet visit, and every milestone along the way.
+      </p>
+      <div class="hero__actions">
+        <a href="#cats" class="btn btn--primary">Meet the cats</a>
+        <a href="#about" class="btn btn--outline">Our story</a>
+      </div>
+    </div>
+    <div class="hero__media">
+      <img src="assets/vikram-nair-5gG1i5BumGg-unsplash.jpg" alt="One of our rescued cats" class="hero__photo" />
     </div>
   </div>
 </section>
@@ -66,7 +71,10 @@
           (click)="toggleCat(cat.id)"
           [attr.aria-expanded]="expandedCatId === cat.id"
         >
-          <span class="cat-entry__photo">{{ cat.emoji }}</span>
+          <span class="cat-entry__photo">
+            <img *ngIf="cat.photo; else catEmoji" [src]="cat.photo" [alt]="cat.name" />
+            <ng-template #catEmoji>{{ cat.emoji }}</ng-template>
+          </span>
           <span class="cat-entry__info">
             <span class="cat-card__status">{{ cat.status }}</span>
             <h3>{{ cat.name }}</h3>

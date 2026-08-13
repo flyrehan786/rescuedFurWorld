@@ -9,7 +9,7 @@
   --color-accent: #c96f4a;
   --color-accent-dark: #a85a38;
   --color-success: #5c8a5c;
-  --content-width: 1080px;
+  --content-width: 1440px;
   --radius: 10px;
 }
 
@@ -143,20 +143,17 @@ img {
 /* Scroll-reveal animation, applied via the appReveal directive */
 .reveal {
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-  will-change: opacity, transform;
+  transition: opacity 0.6s ease;
+  will-change: opacity;
 }
 
 .reveal--visible {
   opacity: 1;
-  transform: translateY(0);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .reveal {
     opacity: 1;
-    transform: none;
     transition: none;
   }
 }

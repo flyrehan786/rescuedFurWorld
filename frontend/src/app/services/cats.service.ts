@@ -1,10 +1,18 @@
 import { Cat } from '../models/cat.model';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 export type CatPayload = Omit<Cat, 'id'>;
+
+export interface CatsPage {
+  items: Cat[];
+  total: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
+}
 
 @Injectable({ providedIn: 'root' })
 export class CatsService {
@@ -14,6 +22,11 @@ export class CatsService {
 
   getCats(): Observable<Cat[]> {
     return this.http.get<Cat[]>(this.baseUrl);
+  }
+
+  getCatsPage(page: number, pageSize: number): Observable<CatsPage> {
+    const params = new HttpParams().set('page', page).set('pageSize', pageSize);
+    return this.http.get<CatsPage>(this.baseUrl, { params });
   }
 
   getCat(id: string): Observable<Cat> {
