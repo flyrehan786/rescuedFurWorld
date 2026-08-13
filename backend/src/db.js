@@ -4,7 +4,8 @@ const bcrypt = require('bcryptjs');
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
 
-const dataDir = path.join(__dirname, '..', 'data');
+// Vercel's filesystem is read-only except /tmp, so use that when deployed there.
+const dataDir = process.env.VERCEL ? '/tmp' : path.join(__dirname, '..', 'data');
 if (!fs.existsSync(dataDir)) {
   fs.mkdirSync(dataDir, { recursive: true });
 }
