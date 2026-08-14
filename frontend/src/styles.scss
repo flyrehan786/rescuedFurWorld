@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
-:root {
+:root,
+:root[data-theme='light'] {
   --color-bg: #fdfcfa;
   --color-surface: #ffffff;
   --color-text: #2b2620;
@@ -11,6 +12,17 @@
   --color-success: #5c8a5c;
   --content-width: 1440px;
   --radius: 10px;
+}
+
+:root[data-theme='dark'] {
+  --color-bg: #1a1714;
+  --color-surface: #241f1a;
+  --color-text: #f2ede6;
+  --color-text-muted: #a89e91;
+  --color-border: #3a332b;
+  --color-accent: #e08a5f;
+  --color-accent-dark: #f0a17a;
+  --color-success: #7cb17c;
 }
 
 * {
@@ -33,6 +45,7 @@ body {
   color: var(--color-text);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 h1,
@@ -81,9 +94,7 @@ img {
 }
 
 .section--muted {
-  background: var(--color-surface);
-  border-top: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
+  background: transparent;
 }
 
 .eyebrow {
@@ -135,7 +146,7 @@ img {
 }
 
 .card {
-  background: var(--color-surface);
+  background: transparent;
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
 }
@@ -247,5 +258,17 @@ img {
   background: #e9f3e9;
   color: #3d6b3d;
   border: 1px solid #bcd9bc;
+}
+
+:root[data-theme='dark'] .alert--error {
+  background: rgba(179, 58, 42, 0.18);
+  color: #f0b7ac;
+  border-color: rgba(240, 183, 172, 0.35);
+}
+
+:root[data-theme='dark'] .alert--success {
+  background: rgba(92, 138, 92, 0.18);
+  color: #bcd9bc;
+  border-color: rgba(188, 217, 188, 0.35);
 }
 

@@ -5,27 +5,52 @@
       <span class="header__name">RescuedFurWorld</span>
     </a>
 
-    <button
-      class="header__toggle"
-      type="button"
-      aria-label="Toggle navigation menu"
-      (click)="toggleMenu()"
-    >
-      ☰
-    </button>
-
-    <nav class="header__nav" [class.open]="menuOpen">
-      <a href="#home" class="header__link" (click)="closeMenu()">Home</a>
-      <a href="#about" class="header__link" (click)="closeMenu()">About</a>
-      <a href="#cats" class="header__link" (click)="closeMenu()">Our Cats</a>
-      <a href="#gallery" class="header__link" (click)="closeMenu()">Gallery</a>
-      <a href="#contact" class="header__link" (click)="closeMenu()">Contact &amp; Support</a>
-      <a
-        [routerLink]="isLoggedIn ? '/admin/cats' : '/admin/login'"
-        class="header__link header__link--login"
-        (click)="closeMenu()"
-        >{{ isLoggedIn ? 'Admin' : 'Login' }}</a
+    <div class="header__actions">
+      <button
+        class="header__theme-toggle"
+        type="button"
+        [attr.aria-label]="isDarkTheme ? 'Switch to light mode' : 'Switch to dark mode'"
+        [attr.aria-pressed]="isDarkTheme"
+        (click)="toggleTheme()"
       >
-    </nav>
+        <svg *ngIf="!isDarkTheme" class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="4"></circle>
+          <line x1="12" y1="2" x2="12" y2="4"></line>
+          <line x1="12" y1="20" x2="12" y2="22"></line>
+          <line x1="4.93" y1="4.93" x2="6.34" y2="6.34"></line>
+          <line x1="17.66" y1="17.66" x2="19.07" y2="19.07"></line>
+          <line x1="2" y1="12" x2="4" y2="12"></line>
+          <line x1="20" y1="12" x2="22" y2="12"></line>
+          <line x1="4.93" y1="19.07" x2="6.34" y2="17.66"></line>
+          <line x1="17.66" y1="6.34" x2="19.07" y2="4.93"></line>
+        </svg>
+        <svg *ngIf="isDarkTheme" class="theme-icon" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+          <path d="M20.742 13.045a8.088 8.088 0 0 1-2.077.273c-4.508 0-8.16-3.653-8.16-8.16 0-1.284.297-2.5.827-3.582a.5.5 0 0 0-.612-.68A10.014 10.014 0 0 0 2 11c0 5.523 4.477 10 10 10 4.256 0 7.892-2.657 9.336-6.399a.5.5 0 0 0-.594-.556z"></path>
+        </svg>
+      </button>
+
+      <button
+        class="header__toggle"
+        type="button"
+        aria-label="Toggle navigation menu"
+        (click)="toggleMenu()"
+      >
+        ☰
+      </button>
+
+      <nav class="header__nav" [class.open]="menuOpen">
+        <a href="#home" class="header__link" (click)="closeMenu()">Home</a>
+        <a href="#about" class="header__link" (click)="closeMenu()">About</a>
+        <a href="#cats" class="header__link" (click)="closeMenu()">Our Cats</a>
+        <a href="#gallery" class="header__link" (click)="closeMenu()">Gallery</a>
+        <a href="#contact" class="header__link" (click)="closeMenu()">Contact &amp; Support</a>
+        <a
+          [routerLink]="isLoggedIn ? '/admin/cats' : '/admin/login'"
+          class="header__link header__link--login"
+          (click)="closeMenu()"
+          >{{ isLoggedIn ? 'Admin' : 'Login' }}</a
+        >
+      </nav>
+    </div>
   </div>
 </header>

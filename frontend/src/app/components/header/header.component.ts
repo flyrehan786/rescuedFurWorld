@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-header',
@@ -9,10 +10,18 @@ import { AuthService } from '../../services/auth.service';
 export class HeaderComponent {
   menuOpen = false;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private themeService: ThemeService) {}
 
   get isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
+  }
+
+  get isDarkTheme(): boolean {
+    return this.themeService.theme === 'dark';
+  }
+
+  toggleTheme(): void {
+    this.themeService.toggleTheme();
   }
 
   toggleMenu(): void {
