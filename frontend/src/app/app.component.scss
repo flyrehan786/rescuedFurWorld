@@ -6,6 +6,35 @@
   pointer-events: none;
 }
 
+.ambient-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ambient-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(253, 252, 250, 0.88) 0%,
+    rgba(253, 252, 250, 0.72) 35%,
+    rgba(253, 252, 250, 0.82) 100%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-video {
+    display: none;
+  }
+
+  .ambient-overlay {
+    background: var(--color-bg);
+  }
+}
+
 app-header {
   position: relative;
   z-index: 10;
@@ -17,70 +46,3 @@ app-footer {
   z-index: 1;
 }
 
-.ambient-blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(70px);
-  opacity: 0.35;
-  will-change: transform;
-}
-
-.ambient-blob--one {
-  width: 26rem;
-  height: 26rem;
-  top: -8rem;
-  left: -6rem;
-  background: radial-gradient(circle, #f3c9a8 0%, transparent 70%);
-  animation: drift-one 26s ease-in-out infinite alternate;
-}
-
-.ambient-blob--two {
-  width: 22rem;
-  height: 22rem;
-  top: 30%;
-  right: -8rem;
-  background: radial-gradient(circle, #cfe0c8 0%, transparent 70%);
-  animation: drift-two 32s ease-in-out infinite alternate;
-}
-
-.ambient-blob--three {
-  width: 20rem;
-  height: 20rem;
-  bottom: -6rem;
-  left: 20%;
-  background: radial-gradient(circle, #e8d5a8 0%, transparent 70%);
-  animation: drift-three 22s ease-in-out infinite alternate;
-}
-
-@keyframes drift-one {
-  from {
-    transform: translate(0, 0) scale(1);
-  }
-  to {
-    transform: translate(4rem, 3rem) scale(1.1);
-  }
-}
-
-@keyframes drift-two {
-  from {
-    transform: translate(0, 0) scale(1);
-  }
-  to {
-    transform: translate(-3rem, 4rem) scale(1.08);
-  }
-}
-
-@keyframes drift-three {
-  from {
-    transform: translate(0, 0) scale(1);
-  }
-  to {
-    transform: translate(3rem, -3rem) scale(1.12);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ambient-blob {
-    animation: none;
-  }
-}
