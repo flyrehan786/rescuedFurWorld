@@ -111,20 +111,57 @@
     <h2>Sweet moments, captured</h2>
     <p class="section__lead">A few candid snapshots from the everyday life of our rescues.</p>
 
-    <div class="gallery__grid">
-      <figure class="gallery__item card" appReveal>
-        <img src="assets/snow1.jpg" alt="A rescued cat resting" loading="lazy" />
-      </figure>
-      <figure class="gallery__item card" appReveal style="transition-delay: 0.1s">
-        <img src="assets/snow2.jpg" alt="A rescued cat exploring" loading="lazy" />
-      </figure>
-      <figure class="gallery__item card" appReveal style="transition-delay: 0.2s">
-        <img src="assets/snow3.jpg" alt="A rescued cat relaxing" loading="lazy" />
-      </figure>
-      <figure class="gallery__item card" appReveal style="transition-delay: 0.3s">
-        <img src="assets/snow4.png" alt="A rescued cat portrait" loading="lazy" />
+    <div *ngIf="galleryImages.length; else galleryEmpty" class="gallery__grid">
+      <figure
+        *ngFor="let image of pagedGalleryImages; let i = index; trackBy: galleryTrackBy"
+        class="gallery__item card"
+        appReveal
+        [style.transition-delay.s]="i * 0.05"
+      >
+        <img [src]="image" alt="Rescued cat photo" loading="lazy" />
       </figure>
     </div>
+
+    <ng-template #galleryEmpty>
+      <p class="gallery__empty">No photos yet — check back soon.</p>
+    </ng-template>
+
+    <nav
+      *ngIf="galleryTotalPages > 1"
+      class="gallery__pagination"
+      aria-label="Gallery pagination"
+    >
+      <button
+        type="button"
+        class="gallery__page-btn"
+        (click)="prevGalleryPage()"
+        [disabled]="galleryPage === 1"
+        aria-label="Previous page"
+      >
+        &lsaquo;
+      </button>
+
+      <button
+        *ngFor="let page of galleryPageNumbers"
+        type="button"
+        class="gallery__page-btn"
+        [class.gallery__page-btn--active]="page === galleryPage"
+        (click)="goToGalleryPage(page)"
+        [attr.aria-current]="page === galleryPage ? 'page' : null"
+      >
+        {{ page }}
+      </button>
+
+      <button
+        type="button"
+        class="gallery__page-btn"
+        (click)="nextGalleryPage()"
+        [disabled]="galleryPage === galleryTotalPages"
+        aria-label="Next page"
+      >
+        &rsaquo;
+      </button>
+    </nav>
   </div>
 </section>
 

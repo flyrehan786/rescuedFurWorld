@@ -3,7 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "gallery:manifest": "node scripts/generate-gallery-manifest.js",
+    "gallery:watch": "node scripts/generate-gallery-manifest.js --watch",
+    "prebuild": "npm run gallery:manifest",
+    "prewatch": "npm run gallery:manifest",
+    "start": "node scripts/dev.js",
+    "start:ng": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
