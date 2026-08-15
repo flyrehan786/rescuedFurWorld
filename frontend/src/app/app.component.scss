@@ -14,13 +14,14 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.16;
-  filter: grayscale(1) contrast(1.05);
+  opacity: 0.55;
+  filter: brightness(0.55) saturate(1.1);
   transition: opacity 0.25s ease;
 }
 
 :root[data-theme='dark'] .ambient-video {
-  opacity: 0.12;
+  opacity: 0.4;
+  filter: brightness(0.35) saturate(1.1);
 }
 
 .ambient-blob {
