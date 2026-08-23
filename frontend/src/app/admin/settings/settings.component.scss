@@ -1,3 +1,15 @@
+.settings__columns {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.settings__column {
+  flex: 1 1 320px;
+  min-width: 280px;
+}
+
 .settings__card {
   max-width: 420px;
   padding: 1.75rem;

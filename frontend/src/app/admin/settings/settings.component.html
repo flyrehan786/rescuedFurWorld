@@ -1,78 +1,84 @@
 <div class="settings">
-  <span class="eyebrow">Account</span>
-  <h1>Profile</h1>
+  <div class="settings__columns">
+    <section class="settings__column">
+      <span class="eyebrow">Account</span>
+      <h1>Profile</h1>
 
-  <div class="alert alert--error" *ngIf="profileErrorMessage">{{ profileErrorMessage }}</div>
-  <div class="alert alert--success" *ngIf="profileSuccessMessage">{{ profileSuccessMessage }}</div>
+      <div class="alert alert--error" *ngIf="profileErrorMessage">{{ profileErrorMessage }}</div>
+      <div class="alert alert--success" *ngIf="profileSuccessMessage">{{ profileSuccessMessage }}</div>
 
-  <form class="settings__card card" [formGroup]="profileForm" (ngSubmit)="saveProfile()">
-    <div class="form-field">
-      <label>Profile photo</label>
-      <div class="settings__photo-row">
-        <img *ngIf="profileForm.value.photo" [src]="profileForm.value.photo" alt="Profile photo" class="settings__photo-preview" />
-        <span *ngIf="!profileForm.value.photo" class="settings__photo-preview settings__photo-preview--empty">No photo</span>
+      <form class="settings__card card" [formGroup]="profileForm" (ngSubmit)="saveProfile()">
+        <div class="form-field">
+          <label>Profile photo</label>
+          <div class="settings__photo-row">
+            <img *ngIf="profileForm.value.photo" [src]="profileForm.value.photo" alt="Profile photo" class="settings__photo-preview" />
+            <span *ngIf="!profileForm.value.photo" class="settings__photo-preview settings__photo-preview--empty">No photo</span>
 
-        <div class="settings__photo-actions">
-          <label class="btn btn--outline btn--small">
-            {{ uploadingPhoto ? 'Uploading…' : 'Upload photo' }}
-            <input
-              type="file"
-              accept="image/png,image/jpeg,image/gif,image/webp"
-              [disabled]="uploadingPhoto"
-              (change)="onPhotoSelected($event)"
-              hidden
-            />
-          </label>
-          <button
-            type="button"
-            class="btn btn--outline btn--small"
-            *ngIf="profileForm.value.photo"
-            (click)="removePhoto()"
-          >Remove</button>
+            <div class="settings__photo-actions">
+              <label class="btn btn--outline btn--small">
+                {{ uploadingPhoto ? 'Uploading…' : 'Upload photo' }}
+                <input
+                  type="file"
+                  accept="image/png,image/jpeg,image/gif,image/webp"
+                  [disabled]="uploadingPhoto"
+                  (change)="onPhotoSelected($event)"
+                  hidden
+                />
+              </label>
+              <button
+                type="button"
+                class="btn btn--outline btn--small"
+                *ngIf="profileForm.value.photo"
+                (click)="removePhoto()"
+              >Remove</button>
+            </div>
+          </div>
+          <div class="alert alert--error" *ngIf="photoError">{{ photoError }}</div>
         </div>
-      </div>
-      <div class="alert alert--error" *ngIf="photoError">{{ photoError }}</div>
-    </div>
 
-    <div class="form-field">
-      <label for="username">Username</label>
-      <input id="username" type="text" formControlName="username" autocomplete="username" />
-    </div>
+        <div class="form-field">
+          <label for="username">Username</label>
+          <input id="username" type="text" formControlName="username" autocomplete="username" />
+        </div>
 
-    <button type="submit" class="btn btn--primary" [disabled]="savingProfile">
-      {{ savingProfile ? 'Saving…' : 'Save profile' }}
-    </button>
-  </form>
+        <button type="submit" class="btn btn--primary" [disabled]="savingProfile">
+          {{ savingProfile ? 'Saving…' : 'Save profile' }}
+        </button>
+      </form>
+    </section>
 
-  <span class="eyebrow">Account</span>
-  <h1>Change password</h1>
+    <section class="settings__column">
+      <span class="eyebrow">Account</span>
+      <h1>Change password</h1>
 
-  <div class="alert alert--error" *ngIf="errorMessage">{{ errorMessage }}</div>
-  <div class="alert alert--success" *ngIf="successMessage">{{ successMessage }}</div>
+      <div class="alert alert--error" *ngIf="errorMessage">{{ errorMessage }}</div>
+      <div class="alert alert--success" *ngIf="successMessage">{{ successMessage }}</div>
 
-  <form class="settings__card card" [formGroup]="form" (ngSubmit)="submit()">
-    <div class="form-field">
-      <label for="currentPassword">Current password</label>
-      <input id="currentPassword" type="password" formControlName="currentPassword" autocomplete="current-password" />
-    </div>
+      <form class="settings__card card" [formGroup]="form" (ngSubmit)="submit()">
+        <div class="form-field">
+          <label for="currentPassword">Current password</label>
+          <input id="currentPassword" type="password" formControlName="currentPassword" autocomplete="current-password" />
+        </div>
 
-    <div class="form-field">
-      <label for="newPassword">New password</label>
-      <input id="newPassword" type="password" formControlName="newPassword" autocomplete="new-password" />
-      <span class="form-hint">At least 6 characters.</span>
-    </div>
+        <div class="form-field">
+          <label for="newPassword">New password</label>
+          <input id="newPassword" type="password" formControlName="newPassword" autocomplete="new-password" />
+          <span class="form-hint">At least 6 characters.</span>
+        </div>
 
-    <div class="form-field">
-      <label for="confirmPassword">Confirm new password</label>
-      <input id="confirmPassword" type="password" formControlName="confirmPassword" autocomplete="new-password" />
-    </div>
+        <div class="form-field">
+          <label for="confirmPassword">Confirm new password</label>
+          <input id="confirmPassword" type="password" formControlName="confirmPassword" autocomplete="new-password" />
+        </div>
 
-    <div class="alert alert--error" *ngIf="form.errors?.['mismatch'] && form.get('confirmPassword')?.touched">
-      New password and confirmation do not match.
-    </div>
+        <div class="alert alert--error" *ngIf="form.errors?.['mismatch'] && form.get('confirmPassword')?.touched">
+          New password and confirmation do not match.
+        </div>
 
-    <button type="submit" class="btn btn--primary" [disabled]="saving">
-      {{ saving ? 'Saving…' : 'Update password' }}
-    </button>
-  </form>
+        <button type="submit" class="btn btn--primary" [disabled]="saving">
+          {{ saving ? 'Saving…' : 'Update password' }}
+        </button>
+      </form>
+    </section>
+  </div>
 </div>
