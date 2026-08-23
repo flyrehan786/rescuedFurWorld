@@ -1,25 +1,14 @@
 const express = require('express');
 const multer = require('multer');
-const path = require('path');
-const crypto = require('crypto');
 const { requireAuth } = require('../middleware/auth');
+const { uploadBuffer, destroyImage } = require('../utils/cloudinary');
 
 const router = express.Router();
 
-const uploadsDir = path.join(__dirname, '..', '..', 'uploads');
-
 const ALLOWED_TYPES = new Set(['image/png', 'image/jpeg', 'image/gif', 'image/webp']);
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, uploadsDir),
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname).toLowerCase() || '.jpg';
-    cb(null, `${Date.now()}-${crypto.randomBytes(6).toString('hex')}${ext}`);
-  }
-});
-
 const upload = multer({
-  storage,
+  storage: multer.memoryStorage(),
   limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
     if (!ALLOWED_TYPES.has(file.mimetype)) {
@@ -29,16 +18,40 @@ const upload = multer({
   }
 });
 
+// Admin: upload a cat photo or a rich-text/bio embedded image to Cloudinary.
 router.post('/image', requireAuth, (req, res) => {
-  upload.single('image')(req, res, (err) => {
+  upload.single('image')(req, res, async (err) => {
     if (err) {
       return res.status(400).json({ message: err.message });
     }
     if (!req.file) {
       return res.status(400).json({ message: 'No image file provided.' });
     }
-    res.status(201).json({ url: `/uploads/${req.file.filename}` });
+
+    try {
+      const { url, publicId } = await uploadBuffer(req.file.buffer, { folder: 'rescuedfurworld/cats' });
+      res.status(201).json({ url, publicId });
+    } catch (uploadErr) {
+      console.error('Cloudinary upload failed:', uploadErr);
+      res.status(502).json({ message: 'Image upload to Cloudinary failed.' });
+    }
   });
+});
+
+// Admin: remove a previously uploaded image from Cloudinary (e.g. when a photo is replaced/removed).
+router.delete('/image', requireAuth, async (req, res) => {
+  const { publicId } = req.body || {};
+  if (!publicId) {
+    return res.status(400).json({ message: 'publicId is required.' });
+  }
+
+  try {
+    await destroyImage(publicId);
+    res.status(204).end();
+  } catch (err) {
+    console.error('Cloudinary delete failed:', err);
+    res.status(502).json({ message: 'Failed to delete image from Cloudinary.' });
+  }
 });
 
 module.exports = router;

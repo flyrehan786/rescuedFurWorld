@@ -10,6 +10,7 @@ import { CatListComponent } from './cat-list/cat-list.component';
 import { CatFormComponent } from './cat-form/cat-form.component';
 import { CatPreviewComponent } from './cat-preview/cat-preview.component';
 import { SettingsComponent } from './settings/settings.component';
+import { GalleryManagerComponent } from './gallery-manager/gallery-manager.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { SettingsComponent } from './settings/settings.component';
     CatListComponent,
     CatFormComponent,
     CatPreviewComponent,
-    SettingsComponent
+    SettingsComponent,
+    GalleryManagerComponent
   ],
   imports: [CommonModule, FormsModule, ReactiveFormsModule, QuillModule.forRoot(), AdminRoutingModule]
 })

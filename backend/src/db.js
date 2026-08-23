@@ -142,6 +142,16 @@ async function setup() {
     )
   `);
 
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS gallery_images (
+      id VARCHAR(64) PRIMARY KEY,
+      url VARCHAR(1024) NOT NULL,
+      public_id VARCHAR(255) NOT NULL,
+      caption VARCHAR(500),
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
   const [[{ count: userCount }]] = await pool.query('SELECT COUNT(*) AS count FROM users');
   if (userCount === 0) {
     const passwordHash = bcrypt.hashSync(DEFAULT_ADMIN_PASSWORD, 10);
@@ -232,6 +242,39 @@ async function deleteCat(id) {
   await pool.query('DELETE FROM cats WHERE id = ?', [id]);
 }
 
+function rowToGalleryImage(row) {
+  return {
+    id: row.id,
+    url: row.url,
+    publicId: row.public_id,
+    caption: row.caption || '',
+    createdAt: row.created_at
+  };
+}
+
+async function getGalleryImages() {
+  const [rows] = await pool.query('SELECT * FROM gallery_images ORDER BY created_at DESC');
+  return rows.map(rowToGalleryImage);
+}
+
+async function getGalleryImageById(id) {
+  const [rows] = await pool.query('SELECT * FROM gallery_images WHERE id = ?', [id]);
+  return rows[0] ? rowToGalleryImage(rows[0]) : null;
+}
+
+async function createGalleryImage({ url, publicId, caption }) {
+  const id = uuid();
+  await pool.query(
+    'INSERT INTO gallery_images (id, url, public_id, caption) VALUES (?, ?, ?, ?)',
+    [id, url, publicId, caption || '']
+  );
+  return getGalleryImageById(id);
+}
+
+async function deleteGalleryImage(id) {
+  await pool.query('DELETE FROM gallery_images WHERE id = ?', [id]);
+}
+
 module.exports = {
   pool,
   ensureReady,
@@ -241,5 +284,9 @@ module.exports = {
   getCatById,
   createCat,
   updateCat,
-  deleteCat
+  deleteCat,
+  getGalleryImages,
+  getGalleryImageById,
+  createGalleryImage,
+  deleteGalleryImage
 };

@@ -8,6 +8,7 @@ const db = require('./db');
 const authRoutes = require('./routes/auth.routes');
 const catsRoutes = require('./routes/cats.routes');
 const uploadRoutes = require('./routes/upload.routes');
+const galleryRoutes = require('./routes/gallery.routes');
 
 const uploadsDir = path.join(__dirname, '..', 'uploads');
 if (!fs.existsSync(uploadsDir)) {
@@ -36,6 +37,7 @@ app.use(async (req, res, next) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/cats', catsRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/gallery', galleryRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err);
