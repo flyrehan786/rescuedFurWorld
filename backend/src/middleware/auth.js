@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
+const config = require('../config');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-change-me';
+const JWT_SECRET = config.jwtSecret;
 
 function requireAuth(req, res, next) {
   const header = req.headers.authorization || '';

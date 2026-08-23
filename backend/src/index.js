@@ -1,10 +1,9 @@
-require('dotenv').config();
-
 const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 
+const config = require('./config');
 const db = require('./db');
 const authRoutes = require('./routes/auth.routes');
 const catsRoutes = require('./routes/cats.routes');
@@ -16,7 +15,7 @@ if (!fs.existsSync(uploadsDir)) {
 }
 
 const app = express();
-const PORT = process.env.PORT || 4300;
+const PORT = config.port;
 
 app.use(cors());
 app.use(express.json({ limit: '2mb' }));

@@ -1,16 +1,17 @@
 const mysql = require('mysql2/promise');
 const bcrypt = require('bcryptjs');
 const { v4: uuid } = require('uuid');
+const config = require('./config');
 
 const pool = mysql.createPool({
-  host: process.env.DB_HOST || 'localhost',
-  port: Number(process.env.DB_PORT) || 3306,
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_NAME || 'rescued_fur_world',
+  host: config.db.host,
+  port: config.db.port,
+  user: config.db.user,
+  password: config.db.password,
+  database: config.db.name,
   waitForConnections: true,
   connectionLimit: 10,
-  ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : undefined
+  ssl: config.db.ssl ? { rejectUnauthorized: false } : undefined
 });
 
 const DEFAULT_ADMIN_USERNAME = 'admin';
@@ -90,18 +91,16 @@ async function insertCatRow(cat) {
 // Guards against re-running schema/seed setup on every request (serverless cold starts reuse this module).
 let readyPromise = null;
 
-const DB_NAME = process.env.DB_NAME || 'rescued_fur_world';
-
 async function ensureDatabaseExists() {
   const connection = await mysql.createConnection({
-    host: process.env.DB_HOST || 'localhost',
-    port: Number(process.env.DB_PORT) || 3306,
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || '',
-    ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : undefined
+    host: config.db.host,
+    port: config.db.port,
+    user: config.db.user,
+    password: config.db.password,
+    ssl: config.db.ssl ? { rejectUnauthorized: false } : undefined
   });
   try {
-    await connection.query(`CREATE DATABASE IF NOT EXISTS \`${DB_NAME}\``);
+    await connection.query(`CREATE DATABASE IF NOT EXISTS \`${config.db.name}\``);
   } finally {
     await connection.end();
   }
