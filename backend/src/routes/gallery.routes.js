@@ -51,6 +51,37 @@ router.post('/', requireAuth, (req, res) => {
   });
 });
 
+// Admin: edit a gallery image's caption, and/or replace its photo (multipart/form-data, optional field "image", optional "caption")
+router.put('/:id', requireAuth, (req, res) => {
+  upload.single('image')(req, res, async (err) => {
+    if (err) {
+      return res.status(400).json({ message: err.message });
+    }
+
+    try {
+      const existing = await db.getGalleryImageById(req.params.id);
+      if (!existing) {
+        return res.status(404).json({ message: 'Gallery image not found.' });
+      }
+
+      const caption = String(req.body?.caption ?? existing.caption ?? '').trim();
+
+      if (req.file) {
+        const { url, publicId } = await uploadBuffer(req.file.buffer, { folder: 'rescuedFurWorld/gallery' });
+        await destroyImage(existing.publicId);
+        const updated = await db.updateGalleryImage(req.params.id, { url, publicId, caption });
+        return res.json(updated);
+      }
+
+      const updated = await db.updateGalleryImage(req.params.id, { caption });
+      res.json(updated);
+    } catch (updateErr) {
+      console.error('Gallery image update failed:', updateErr);
+      res.status(502).json({ message: 'Failed to update gallery image.' });
+    }
+  });
+});
+
 // Admin: delete a gallery image (removes from Cloudinary and the database)
 router.delete('/:id', requireAuth, async (req, res, next) => {
   try {

@@ -277,6 +277,18 @@ async function deleteGalleryImage(id) {
   await pool.query('DELETE FROM gallery_images WHERE id = ?', [id]);
 }
 
+async function updateGalleryImage(id, { url, publicId, caption }) {
+  if (url && publicId) {
+    await pool.query(
+      'UPDATE gallery_images SET url = ?, public_id = ?, caption = ? WHERE id = ?',
+      [url, publicId, caption || '', id]
+    );
+  } else {
+    await pool.query('UPDATE gallery_images SET caption = ? WHERE id = ?', [caption || '', id]);
+  }
+  return getGalleryImageById(id);
+}
+
 module.exports = {
   pool,
   ensureReady,
@@ -290,5 +302,6 @@ module.exports = {
   getGalleryImages,
   getGalleryImageById,
   createGalleryImage,
-  deleteGalleryImage
+  deleteGalleryImage,
+  updateGalleryImage
 };

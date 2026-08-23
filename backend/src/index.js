@@ -1,7 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const fs = require('fs');
-const path = require('path');
 
 const config = require('./config');
 const db = require('./db');
@@ -10,17 +8,11 @@ const catsRoutes = require('./routes/cats.routes');
 const uploadRoutes = require('./routes/upload.routes');
 const galleryRoutes = require('./routes/gallery.routes');
 
-const uploadsDir = path.join(__dirname, '..', 'uploads');
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
-}
-
 const app = express();
 const PORT = config.port;
 
 app.use(cors());
 app.use(express.json({ limit: '2mb' }));
-app.use('/uploads', express.static(uploadsDir));
 
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
 

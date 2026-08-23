@@ -6,24 +6,46 @@
     </div>
 
     <label class="btn btn--primary gallery-manager__upload-btn">
-      {{ uploading ? 'Uploading…' : '+ Upload image' }}
+      {{ uploading ? 'Uploading…' : '+ Upload images' }}
       <input
         type="file"
         accept="image/png,image/jpeg,image/gif,image/webp"
-        [disabled]="uploading"
-        (change)="onFileSelected($event)"
+        multiple
+        (change)="onFilesSelected($event)"
         hidden
       />
     </label>
   </div>
 
   <div class="gallery-manager__caption-row">
-    <label for="caption">Caption (optional, applies to next upload)</label>
+    <label for="caption">Caption (optional, applies to next upload — up to 10 images at once)</label>
     <input id="caption" type="text" [(ngModel)]="caption" placeholder="e.g. Milo's first birthday" />
   </div>
 
+  <div class="upload-queue" *ngIf="uploadTasks.length">
+    <div class="upload-queue__item" *ngFor="let task of uploadTasks">
+      <span class="upload-queue__name">{{ task.fileName }}</span>
+      <div class="upload-queue__bar">
+        <div
+          class="upload-queue__bar-fill"
+          [class.upload-queue__bar-fill--error]="task.status === 'error'"
+          [class.upload-queue__bar-fill--done]="task.status === 'done'"
+          [style.width.%]="task.progress"
+        ></div>
+      </div>
+      <span class="upload-queue__percent" *ngIf="task.status !== 'error'">{{ task.progress }}%</span>
+      <span class="upload-queue__error" *ngIf="task.status === 'error'">{{ task.errorMessage }}</span>
+      <button
+        type="button"
+        class="upload-queue__dismiss"
+        *ngIf="task.status === 'error'"
+        (click)="dismissTask(task.id)"
+        aria-label="Dismiss"
+      >✕</button>
+    </div>
+  </div>
+
   <div class="alert alert--error" *ngIf="errorMessage">{{ errorMessage }}</div>
-  <div class="alert alert--error" *ngIf="uploadError">{{ uploadError }}</div>
 
   <p *ngIf="loading">Loading gallery…</p>
 
@@ -32,17 +54,50 @@
   <div class="gallery-grid" *ngIf="!loading && images.length > 0">
     <div class="gallery-grid__item card" *ngFor="let image of images">
       <img [src]="image.url" [alt]="image.caption || 'Gallery image'" />
-      <div class="gallery-grid__meta">
-        <span class="gallery-grid__caption">{{ image.caption || '—' }}</span>
-        <button
-          type="button"
-          class="btn btn--danger btn--small"
-          [disabled]="deletingId === image.id"
-          (click)="deleteImage(image)"
-        >
-          {{ deletingId === image.id ? 'Deleting…' : 'Delete' }}
-        </button>
-      </div>
+
+      <ng-container *ngIf="editingId === image.id; else viewMeta">
+        <div class="gallery-grid__edit">
+          <input type="text" [(ngModel)]="editCaption" placeholder="Caption" />
+
+          <label class="gallery-grid__replace-btn">
+            {{ editFileName || 'Replace photo (optional)' }}
+            <input
+              type="file"
+              accept="image/png,image/jpeg,image/gif,image/webp"
+              (change)="onEditFileSelected($event)"
+              hidden
+            />
+          </label>
+
+          <div class="alert alert--error" *ngIf="editError">{{ editError }}</div>
+
+          <div class="gallery-grid__edit-actions">
+            <button type="button" class="btn btn--primary btn--small" [disabled]="saving" (click)="saveEdit(image)">
+              {{ saving ? 'Saving…' : 'Save' }}
+            </button>
+            <button type="button" class="btn btn--outline btn--small" [disabled]="saving" (click)="cancelEdit()">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-template #viewMeta>
+        <div class="gallery-grid__meta">
+          <span class="gallery-grid__caption">{{ image.caption || '—' }}</span>
+          <div class="gallery-grid__actions">
+            <button type="button" class="btn btn--outline btn--small" (click)="startEdit(image)">Edit</button>
+            <button
+              type="button"
+              class="btn btn--danger btn--small"
+              [disabled]="deletingId === image.id"
+              (click)="deleteImage(image)"
+            >
+              {{ deletingId === image.id ? 'Deleting…' : 'Delete' }}
+            </button>
+          </div>
+        </div>
+      </ng-template>
     </div>
   </div>
 </div>
