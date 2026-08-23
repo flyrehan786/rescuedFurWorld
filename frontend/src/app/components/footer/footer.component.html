@@ -1,7 +1,11 @@
 <footer class="footer">
   <div class="footer__inner">
     <div class="footer__brand">
-      <span class="footer__logo">🐾</span>
+      <img
+        [src]="isDarkTheme ? 'assets/dark.png' : 'assets/light.png'"
+        alt="RescuedFurWorld logo"
+        class="footer__logo"
+      />
       <span>RescuedFurWorld</span>
     </div>
 

@@ -1,7 +1,11 @@
 <header class="header">
   <div class="header__inner">
     <a href="#home" class="header__brand" (click)="closeMenu()">
-      <span class="header__logo">🐾</span>
+      <img
+        [src]="isDarkTheme ? 'assets/dark.png' : 'assets/light.png'"
+        alt="RescuedFurWorld logo"
+        class="header__logo"
+      />
       <span class="header__name">RescuedFurWorld</span>
     </a>
 
