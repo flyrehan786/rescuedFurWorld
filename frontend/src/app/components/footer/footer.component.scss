@@ -23,6 +23,29 @@
   height: 1.2rem;
   width: auto;
   display: block;
+  animation: logo-float 3s ease-in-out infinite;
+  transform-origin: 50% 80%;
+}
+
+@keyframes logo-float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-2px) rotate(-4deg);
+  }
+}
+
+.footer__divider {
+  width: 1px;
+  height: 1.2rem;
+  background: currentColor;
+  opacity: 0.3;
+}
+
+.footer__name {
+  font-weight: 700;
+  font-style: italic;
 }
 
 .footer__tagline {
