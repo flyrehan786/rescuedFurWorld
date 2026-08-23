@@ -6,8 +6,7 @@
   justify-content: center;
   padding: 1.5rem;
   overflow: hidden;
-  background: linear-gradient(160deg, var(--color-bg) 0%, var(--color-surface) 45%, var(--color-bg) 100%);
-  transition: background-color 0.25s ease;
+  background: transparent;
 }
 
 .login__blob {
