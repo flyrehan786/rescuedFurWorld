@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:4300/api'
+  apiUrl: 'https://rescued-fur-world-api.vercel.app/api'
 };
