@@ -2,11 +2,79 @@
   position: relative;
   min-height: 100vh;
   display: flex;
+  overflow: hidden;
+  background: var(--color-bg);
+}
+
+.login__brand {
+  position: relative;
+  flex: 1 1 45%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(160deg, var(--color-accent-dark), var(--color-accent));
+  padding: 3rem;
+}
+
+.login__brand-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 420px;
+}
+
+.login__brand-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.login__brand-logo {
+  height: 3rem;
+  width: auto;
+  animation: login-logo-float 3.5s ease-in-out infinite;
+}
+
+@keyframes login-logo-float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-4px) rotate(-3deg);
+  }
+}
+
+.login__brand-divider {
+  width: 1px;
+  height: 2.25rem;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.login__brand-name {
+  font-size: 2rem;
+  font-weight: 700;
+  font-style: italic;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+
+.login__brand-tagline {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.login__panel {
+  position: relative;
+  flex: 1 1 55%;
+  display: flex;
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
-  overflow: hidden;
-  background: var(--color-bg);
 }
 
 .login__stack {
@@ -23,7 +91,7 @@
   position: absolute;
   border-radius: 50%;
   filter: blur(80px);
-  opacity: 0.35;
+  opacity: 0.45;
   pointer-events: none;
   transition: opacity 0.25s ease;
 }
@@ -33,7 +101,7 @@
   height: 24rem;
   top: -8rem;
   left: -6rem;
-  background: radial-gradient(circle, var(--color-accent) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, transparent 70%);
   animation: login-drift-one 22s ease-in-out infinite alternate;
 }
 
@@ -42,12 +110,32 @@
   height: 22rem;
   bottom: -8rem;
   right: -6rem;
-  background: radial-gradient(circle, var(--color-success) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
   animation: login-drift-two 26s ease-in-out infinite alternate;
 }
 
 :root[data-theme='dark'] .login__blob {
-  opacity: 0.22;
+  opacity: 0.3;
+}
+
+@media (max-width: 860px) {
+  .login {
+    flex-direction: column;
+  }
+
+  .login__brand {
+    flex: 0 0 auto;
+    padding: 2.5rem 1.5rem;
+  }
+
+  .login__brand-content {
+    align-items: center;
+    text-align: center;
+  }
+
+  .login__panel {
+    flex: 1 1 auto;
+  }
 }
 
 @keyframes login-drift-one {
@@ -100,17 +188,43 @@
   margin-bottom: 1.5rem;
 }
 
-.login__badge {
-  display: inline-flex;
+.login__brand-row {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  width: 3rem;
-  height: 3rem;
-  border-radius: 50%;
-  font-size: 1.4rem;
-  margin-bottom: 1rem;
-  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-dark));
-  box-shadow: 0 8px 20px -6px color-mix(in srgb, var(--color-accent) 60%, transparent);
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.login__logo {
+  height: 1.4rem;
+  width: auto;
+  display: block;
+  animation: login-card-logo-float 3s ease-in-out infinite;
+  transform-origin: 50% 80%;
+}
+
+@keyframes login-card-logo-float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-2px) rotate(-4deg);
+  }
+}
+
+.login__divider {
+  width: 1px;
+  height: 1.4rem;
+  background: currentColor;
+  opacity: 0.3;
+}
+
+.login__logo-name {
+  font-weight: 700;
+  font-style: italic;
+  font-size: 1.1rem;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
 }
 
 .login__card .form-field input {

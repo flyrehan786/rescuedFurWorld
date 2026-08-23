@@ -2,7 +2,15 @@
   <header class="admin__header">
     <div class="admin__header-inner">
       <div class="admin__brand">
-        <a routerLink="/">🐾 RescuedFurWorld</a>
+        <a routerLink="/" class="admin__brand-link">
+          <img
+            [src]="isDarkTheme ? 'assets/dark.png' : 'assets/light.png'"
+            alt="RescuedFurWorld logo"
+            class="admin__logo"
+          />
+          <span class="admin__divider"></span>
+          <span class="admin__name">RescuedFurWorld</span>
+        </a>
         <span class="admin__badge">Admin</span>
       </div>
 
