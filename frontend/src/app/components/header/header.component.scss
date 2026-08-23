@@ -113,13 +113,14 @@
     top: 100%;
     left: 0;
     right: 0;
-    background: transparent;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: 0 12px 24px -12px rgba(0, 0, 0, 0.35);
     flex-direction: column;
     gap: 0;
     padding: 0.5rem 0;
     display: none;
+    z-index: 10;
   }
 
   .header__nav.open {

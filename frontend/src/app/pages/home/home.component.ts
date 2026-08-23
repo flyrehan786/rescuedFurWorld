@@ -11,7 +11,10 @@ import { CatsService } from '../../services/cats.service';
 })
 export class HomeComponent implements OnInit {
   cats: Cat[] = [];
-  expandedCatId: string | null = null;
+  selectedCat: Cat | null = null;
+
+  readonly catsPageSize = 6;
+  catsPage = 1;
 
   galleryImages: string[] = [];
   readonly galleryPageSize = 8;
@@ -34,8 +37,18 @@ export class HomeComponent implements OnInit {
       });
   }
 
-  toggleCat(id: string): void {
-    this.expandedCatId = this.expandedCatId === id ? null : id;
+  openCat(cat: Cat): void {
+    this.selectedCat = cat;
+    document.body.classList.add('no-scroll');
+  }
+
+  closeCat(): void {
+    this.selectedCat = null;
+    document.body.classList.remove('no-scroll');
+  }
+
+  catTrackBy(_index: number, cat: Cat): string {
+    return cat.id;
   }
 
   iconFor(type: string): string {
@@ -53,6 +66,38 @@ export class HomeComponent implements OnInit {
       default:
         return '📌';
     }
+  }
+
+  get catsTotalPages(): number {
+    return Math.max(1, Math.ceil(this.cats.length / this.catsPageSize));
+  }
+
+  get pagedCats(): Cat[] {
+    const start = (this.catsPage - 1) * this.catsPageSize;
+    return this.cats.slice(start, start + this.catsPageSize);
+  }
+
+  get catsPageNumbers(): number[] {
+    return Array.from({ length: this.catsTotalPages }, (_, i) => i + 1);
+  }
+
+  goToCatsPage(page: number): void {
+    if (page < 1 || page > this.catsTotalPages) {
+      return;
+    }
+    this.catsPage = page;
+    const el = document.getElementById('cats');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  prevCatsPage(): void {
+    this.goToCatsPage(this.catsPage - 1);
+  }
+
+  nextCatsPage(): void {
+    this.goToCatsPage(this.catsPage + 1);
   }
 
   get galleryTotalPages(): number {

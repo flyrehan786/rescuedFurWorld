@@ -10,6 +10,8 @@
 .cat-table-wrap {
   overflow: hidden;
   padding: 0;
+  background: var(--color-surface);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 8px 24px rgba(0, 0, 0, 0.06);
 }
 
 .cat-table {
@@ -48,7 +50,7 @@
 }
 
 .cat-table tbody tr:hover {
-  background: var(--color-bg);
+  background: color-mix(in srgb, var(--color-accent) 6%, transparent);
 }
 
 .cat-table td {
@@ -107,18 +109,18 @@
 }
 
 .status-pill--thriving {
-  background: #e9f3e9;
-  color: #3d6b3d;
+  background: color-mix(in srgb, var(--color-success) 18%, transparent);
+  color: var(--color-success);
 }
 
 .status-pill--under-care {
-  background: #fdf2e3;
-  color: #a5701f;
+  background: color-mix(in srgb, var(--color-accent) 18%, transparent);
+  color: var(--color-accent);
 }
 
 .status-pill--looking-for-a-home {
-  background: #eaf1fb;
-  color: #2f5f9e;
+  background: color-mix(in srgb, var(--color-text-muted) 20%, transparent);
+  color: var(--color-text-muted);
 }
 
 .cat-pagination {

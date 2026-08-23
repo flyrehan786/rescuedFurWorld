@@ -82,47 +82,97 @@
   <div class="container">
     <span class="eyebrow">Our Cats</span>
     <h2>Meet the cats &amp; their health journeys</h2>
-    <p class="section__lead">Tap a cat to open their full story &mdash; from rescue day to today.</p>
+    <p class="section__lead">Tap a cat to view their full story &mdash; from rescue day to today.</p>
 
-    <div class="cat-list">
-      <div *ngFor="let cat of cats; let i = index" class="cat-entry card" appReveal [style.transition-delay.s]="i * 0.1">
-        <button
-          type="button"
-          class="cat-entry__summary"
-          (click)="toggleCat(cat.id)"
-          [attr.aria-expanded]="expandedCatId === cat.id"
-        >
-          <span class="cat-entry__photo">
-            <img *ngIf="cat.photo; else catEmoji" [src]="cat.photo" [alt]="cat.name" />
-            <ng-template #catEmoji>{{ cat.emoji }}</ng-template>
-          </span>
-          <span class="cat-entry__info">
-            <span class="cat-card__status">{{ cat.status }}</span>
-            <h3>{{ cat.name }}</h3>
-            <p>{{ cat.tagline }}</p>
-          </span>
-          <span class="cat-entry__toggle" [class.cat-entry__toggle--open]="expandedCatId === cat.id">+</span>
-        </button>
-
-        <div class="cat-entry__details" *ngIf="expandedCatId === cat.id">
-          <div class="cat-detail__bio" [innerHTML]="cat.bio"></div>
-          <p class="cat-detail__rescue-date">Rescued on {{ cat.rescueDate | date: 'longDate' }}</p>
-
-          <ol class="timeline">
-            <li *ngFor="let event of cat.healthJourney" class="timeline__item">
-              <div class="timeline__icon">{{ iconFor(event.type) }}</div>
-              <div class="timeline__content card">
-                <span class="timeline__date">{{ event.date | date: 'mediumDate' }}</span>
-                <h4>{{ event.title }}</h4>
-                <p>{{ event.description }}</p>
-              </div>
-            </li>
-          </ol>
+    <div class="cat-grid">
+      <article
+        *ngFor="let cat of pagedCats; let i = index; trackBy: catTrackBy"
+        class="cat-card card"
+        appReveal
+        [style.transition-delay.s]="i * 0.08"
+      >
+        <div class="cat-card__media">
+          <img *ngIf="cat.photo; else catCardEmoji" [src]="cat.photo" [alt]="cat.name" />
+          <ng-template #catCardEmoji><span class="cat-card__emoji">{{ cat.emoji }}</span></ng-template>
+          <span class="cat-card__status">{{ cat.status }}</span>
         </div>
-      </div>
+        <div class="cat-card__body">
+          <h3>{{ cat.name }}</h3>
+          <p>{{ cat.tagline }}</p>
+          <button type="button" class="cat-card__link" (click)="openCat(cat)">
+            View details <span aria-hidden="true">&rarr;</span>
+          </button>
+        </div>
+      </article>
     </div>
+
+    <p *ngIf="!cats.length" class="gallery__empty">No cats yet &mdash; check back soon.</p>
+
+    <nav *ngIf="catsTotalPages > 1" class="gallery__pagination" aria-label="Cats pagination">
+      <button
+        type="button"
+        class="gallery__page-btn"
+        (click)="prevCatsPage()"
+        [disabled]="catsPage === 1"
+        aria-label="Previous page"
+      >
+        &lsaquo;
+      </button>
+
+      <button
+        *ngFor="let page of catsPageNumbers"
+        type="button"
+        class="gallery__page-btn"
+        [class.gallery__page-btn--active]="page === catsPage"
+        (click)="goToCatsPage(page)"
+        [attr.aria-current]="page === catsPage ? 'page' : null"
+      >
+        {{ page }}
+      </button>
+
+      <button
+        type="button"
+        class="gallery__page-btn"
+        (click)="nextCatsPage()"
+        [disabled]="catsPage === catsTotalPages"
+        aria-label="Next page"
+      >
+        &rsaquo;
+      </button>
+    </nav>
   </div>
 </section>
+
+<div class="cat-modal" *ngIf="selectedCat as cat" (click)="closeCat()">
+  <div class="cat-modal__panel card" (click)="$event.stopPropagation()">
+    <button type="button" class="cat-modal__close" (click)="closeCat()" aria-label="Close details">&times;</button>
+
+    <div class="cat-modal__header">
+      <span class="cat-modal__photo">
+        <img *ngIf="cat.photo; else modalEmoji" [src]="cat.photo" [alt]="cat.name" />
+        <ng-template #modalEmoji>{{ cat.emoji }}</ng-template>
+      </span>
+      <div>
+        <span class="cat-card__status">{{ cat.status }}</span>
+        <h3>{{ cat.name }}</h3>
+        <p class="cat-detail__rescue-date">Rescued on {{ cat.rescueDate | date: 'longDate' }}</p>
+      </div>
+    </div>
+
+    <div class="cat-detail__bio" [innerHTML]="cat.bio"></div>
+
+    <ol class="timeline">
+      <li *ngFor="let event of cat.healthJourney" class="timeline__item">
+        <div class="timeline__icon">{{ iconFor(event.type) }}</div>
+        <div class="timeline__content card">
+          <span class="timeline__date">{{ event.date | date: 'mediumDate' }}</span>
+          <h4>{{ event.title }}</h4>
+          <p>{{ event.description }}</p>
+        </div>
+      </li>
+    </ol>
+  </div>
+</div>
 
 <section id="gallery" class="section section--muted gallery" appReveal>
   <div class="container">
