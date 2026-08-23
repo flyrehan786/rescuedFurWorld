@@ -19,14 +19,47 @@ router.post('/login', async (req, res, next) => {
     }
 
     const token = jwt.sign({ username: user.username }, JWT_SECRET, { expiresIn: '12h' });
-    res.json({ token, username: user.username });
+    res.json({ token, username: user.username, photo: user.photo || '' });
   } catch (err) {
     next(err);
   }
 });
 
-router.get('/me', requireAuth, (req, res) => {
-  res.json({ username: req.user.username });
+router.get('/me', requireAuth, async (req, res, next) => {
+  try {
+    const user = await db.getUser(req.user.username);
+    res.json({ username: user.username, photo: user.photo || '' });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put('/profile', requireAuth, async (req, res, next) => {
+  try {
+    const { username: newUsername, photo } = req.body || {};
+    const trimmedUsername = newUsername !== undefined ? String(newUsername).trim() : undefined;
+
+    if (trimmedUsername !== undefined && !trimmedUsername) {
+      return res.status(400).json({ message: 'Username cannot be empty.' });
+    }
+
+    if (trimmedUsername && trimmedUsername !== req.user.username) {
+      const existing = await db.getUser(trimmedUsername);
+      if (existing) {
+        return res.status(409).json({ message: 'That username is already taken.' });
+      }
+    }
+
+    const updated = await db.updateProfile(req.user.username, {
+      newUsername: trimmedUsername,
+      photo: photo !== undefined ? String(photo).trim() : undefined
+    });
+
+    const token = jwt.sign({ username: updated.username }, JWT_SECRET, { expiresIn: '12h' });
+    res.json({ token, username: updated.username, photo: updated.photo || '' });
+  } catch (err) {
+    next(err);
+  }
 });
 
 router.post('/change-password', requireAuth, async (req, res, next) => {

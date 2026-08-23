@@ -16,6 +16,11 @@
         </nav>
 
         <div class="admin__account">
+          <img *ngIf="photo" [src]="photo" alt="Profile photo" class="admin__avatar" />
+          <span
+            *ngIf="!photo && username"
+            class="admin__avatar admin__avatar--initial"
+          >{{ username.charAt(0).toUpperCase() }}</span>
           <span *ngIf="username">{{ username }}</span>
           <button type="button" class="btn btn--outline btn--small" (click)="logout()">Log out</button>
         </div>

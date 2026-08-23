@@ -14,6 +14,10 @@ export class AdminLayoutComponent {
     return this.authService.username;
   }
 
+  get photo(): string | null {
+    return this.authService.photo;
+  }
+
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/admin/login']);

@@ -113,9 +113,17 @@ async function setup() {
     CREATE TABLE IF NOT EXISTS users (
       id INT AUTO_INCREMENT PRIMARY KEY,
       username VARCHAR(255) NOT NULL UNIQUE,
-      password_hash VARCHAR(255) NOT NULL
+      password_hash VARCHAR(255) NOT NULL,
+      photo VARCHAR(1024)
     )
   `);
+
+  const [userColumns] = await pool.query(
+    "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'users' AND COLUMN_NAME = 'photo'"
+  );
+  if (userColumns.length === 0) {
+    await pool.query('ALTER TABLE users ADD COLUMN photo VARCHAR(1024)');
+  }
 
   await pool.query(`
     CREATE TABLE IF NOT EXISTS cats (
@@ -197,13 +205,24 @@ function eventsToJourney(rows) {
 
 async function getUser(username) {
   const [rows] = username
-    ? await pool.query('SELECT username, password_hash AS passwordHash FROM users WHERE username = ? LIMIT 1', [username])
-    : await pool.query('SELECT username, password_hash AS passwordHash FROM users LIMIT 1');
+    ? await pool.query('SELECT username, password_hash AS passwordHash, photo FROM users WHERE username = ? LIMIT 1', [username])
+    : await pool.query('SELECT username, password_hash AS passwordHash, photo FROM users LIMIT 1');
   return rows[0] || null;
 }
 
 async function updatePassword(username, passwordHash) {
   await pool.query('UPDATE users SET password_hash = ? WHERE username = ?', [passwordHash, username]);
+}
+
+async function updateProfile(username, { newUsername, photo }) {
+  if (newUsername && newUsername !== username) {
+    await pool.query('UPDATE users SET username = ? WHERE username = ?', [newUsername, username]);
+    username = newUsername;
+  }
+  if (photo !== undefined) {
+    await pool.query('UPDATE users SET photo = ? WHERE username = ?', [photo, username]);
+  }
+  return getUser(username);
 }
 
 async function getCats() {
@@ -294,6 +313,7 @@ module.exports = {
   ensureReady,
   getUser,
   updatePassword,
+  updateProfile,
   getCats,
   getCatById,
   createCat,

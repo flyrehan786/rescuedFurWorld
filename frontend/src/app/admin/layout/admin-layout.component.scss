@@ -83,6 +83,24 @@
   color: var(--color-text-muted);
 }
 
+.admin__avatar {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.admin__avatar--initial {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-accent);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
 .admin__content {
   flex: 1;
   max-width: var(--content-width);
