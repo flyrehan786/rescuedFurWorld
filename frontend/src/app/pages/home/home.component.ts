@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { catchError, of } from 'rxjs';
 import { Cat } from '../../models/cat.model';
+import { GalleryImage } from '../../models/gallery-image.model';
 import { CatsService } from '../../services/cats.service';
+import { GalleryService } from '../../services/gallery.service';
 
 @Component({
   selector: 'app-home',
@@ -16,11 +16,11 @@ export class HomeComponent implements OnInit {
   readonly catsPageSize = 6;
   catsPage = 1;
 
-  galleryImages: string[] = [];
+  galleryImages: GalleryImage[] = [];
   readonly galleryPageSize = 8;
   galleryPage = 1;
 
-  constructor(private catsService: CatsService, private http: HttpClient) {}
+  constructor(private catsService: CatsService, private galleryService: GalleryService) {}
 
   ngOnInit(): void {
     this.catsService.getCats().subscribe({
@@ -28,13 +28,13 @@ export class HomeComponent implements OnInit {
       error: () => (this.cats = [])
     });
 
-    this.http
-      .get<{ images: string[] }>('assets/gallery/manifest.json')
-      .pipe(catchError(() => of({ images: [] as string[] })))
-      .subscribe(({ images }) => {
-        this.galleryImages = (images || []).map((name) => `assets/gallery/${name}`);
+    this.galleryService.getImages().subscribe({
+      next: (images) => {
+        this.galleryImages = images || [];
         this.galleryPage = 1;
-      });
+      },
+      error: () => (this.galleryImages = [])
+    });
   }
 
   openCat(cat: Cat): void {
@@ -104,7 +104,7 @@ export class HomeComponent implements OnInit {
     return Math.max(1, Math.ceil(this.galleryImages.length / this.galleryPageSize));
   }
 
-  get pagedGalleryImages(): string[] {
+  get pagedGalleryImages(): GalleryImage[] {
     const start = (this.galleryPage - 1) * this.galleryPageSize;
     return this.galleryImages.slice(start, start + this.galleryPageSize);
   }
@@ -132,7 +132,7 @@ export class HomeComponent implements OnInit {
     this.goToGalleryPage(this.galleryPage + 1);
   }
 
-  galleryTrackBy(_index: number, src: string): string {
-    return src;
+  galleryTrackBy(_index: number, image: GalleryImage): string {
+    return image.id;
   }
 }

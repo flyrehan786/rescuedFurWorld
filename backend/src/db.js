@@ -148,6 +148,7 @@ async function setup() {
       url VARCHAR(1024) NOT NULL,
       public_id VARCHAR(255) NOT NULL,
       caption VARCHAR(500),
+      source_file VARCHAR(255),
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )
   `);
@@ -248,6 +249,7 @@ function rowToGalleryImage(row) {
     url: row.url,
     publicId: row.public_id,
     caption: row.caption || '',
+    sourceFile: row.source_file || '',
     createdAt: row.created_at
   };
 }
@@ -262,11 +264,11 @@ async function getGalleryImageById(id) {
   return rows[0] ? rowToGalleryImage(rows[0]) : null;
 }
 
-async function createGalleryImage({ url, publicId, caption }) {
+async function createGalleryImage({ url, publicId, caption, sourceFile }) {
   const id = uuid();
   await pool.query(
-    'INSERT INTO gallery_images (id, url, public_id, caption) VALUES (?, ?, ?, ?)',
-    [id, url, publicId, caption || '']
+    'INSERT INTO gallery_images (id, url, public_id, caption, source_file) VALUES (?, ?, ?, ?, ?)',
+    [id, url, publicId, caption || '', sourceFile || '']
   );
   return getGalleryImageById(id);
 }

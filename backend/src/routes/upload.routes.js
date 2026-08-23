@@ -29,7 +29,7 @@ router.post('/image', requireAuth, (req, res) => {
     }
 
     try {
-      const { url, publicId } = await uploadBuffer(req.file.buffer, { folder: 'rescuedfurworld/cats' });
+      const { url, publicId } = await uploadBuffer(req.file.buffer, { folder: 'rescuedFurWorld/cats' });
       res.status(201).json({ url, publicId });
     } catch (uploadErr) {
       console.error('Cloudinary upload failed:', uploadErr);

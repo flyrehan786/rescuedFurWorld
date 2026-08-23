@@ -40,7 +40,7 @@ router.post('/', requireAuth, (req, res) => {
     }
 
     try {
-      const { url, publicId } = await uploadBuffer(req.file.buffer, { folder: 'rescuedfurworld/gallery' });
+      const { url, publicId } = await uploadBuffer(req.file.buffer, { folder: 'rescuedFurWorld/gallery' });
       const caption = String(req.body?.caption || '').trim();
       const image = await db.createGalleryImage({ url, publicId, caption });
       res.status(201).json(image);

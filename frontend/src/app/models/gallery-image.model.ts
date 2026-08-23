@@ -3,5 +3,6 @@ export interface GalleryImage {
   url: string;
   publicId: string;
   caption: string;
+  sourceFile?: string;
   createdAt: string;
 }
