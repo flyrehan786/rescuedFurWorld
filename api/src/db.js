@@ -161,6 +161,14 @@ async function setup() {
     )
   `);
 
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS site_settings (
+      \`key\` VARCHAR(64) PRIMARY KEY,
+      value VARCHAR(1024),
+      public_id VARCHAR(255)
+    )
+  `);
+
   const [[{ count: userCount }]] = await pool.query('SELECT COUNT(*) AS count FROM users');
   if (userCount === 0) {
     const passwordHash = bcrypt.hashSync(DEFAULT_ADMIN_PASSWORD, 10);
@@ -308,6 +316,19 @@ async function updateGalleryImage(id, { url, publicId, caption }) {
   return getGalleryImageById(id);
 }
 
+async function getSiteSetting(key) {
+  const [rows] = await pool.query('SELECT value, public_id AS publicId FROM site_settings WHERE `key` = ?', [key]);
+  return rows[0] || null;
+}
+
+async function setSiteSetting(key, { value, publicId }) {
+  await pool.query(
+    'INSERT INTO site_settings (`key`, value, public_id) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE value = VALUES(value), public_id = VALUES(public_id)',
+    [key, value || '', publicId || '']
+  );
+  return getSiteSetting(key);
+}
+
 module.exports = {
   pool,
   ensureReady,
@@ -323,5 +344,7 @@ module.exports = {
   getGalleryImageById,
   createGalleryImage,
   deleteGalleryImage,
-  updateGalleryImage
+  updateGalleryImage,
+  getSiteSetting,
+  setSiteSetting
 };

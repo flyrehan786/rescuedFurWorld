@@ -80,5 +80,36 @@
         </button>
       </form>
     </section>
+
+    <section class="settings__column">
+      <span class="eyebrow">Site content</span>
+      <h1>About section photo</h1>
+
+      <div class="alert alert--error" *ngIf="aboutPhotoError">{{ aboutPhotoError }}</div>
+      <div class="alert alert--success" *ngIf="aboutPhotoSuccess">{{ aboutPhotoSuccess }}</div>
+
+      <div class="settings__card card">
+        <div class="form-field">
+          <label>Photo shown in the About section</label>
+          <div class="settings__photo-row">
+            <img *ngIf="aboutPhotoUrl" [src]="aboutPhotoUrl" alt="About section photo" class="settings__photo-preview" />
+            <span *ngIf="!aboutPhotoUrl" class="settings__photo-preview settings__photo-preview--empty">No photo</span>
+
+            <div class="settings__photo-actions">
+              <label class="btn btn--outline btn--small">
+                {{ uploadingAboutPhoto ? 'Uploading…' : 'Upload photo' }}
+                <input
+                  type="file"
+                  accept="image/png,image/jpeg,image/gif,image/webp"
+                  [disabled]="uploadingAboutPhoto"
+                  (change)="onAboutPhotoSelected($event)"
+                  hidden
+                />
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </div>

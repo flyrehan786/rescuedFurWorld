@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { UploadService } from '../../services/upload.service';
+import { SiteContentService } from '../../services/site-content.service';
 
 function passwordsMatch(control: AbstractControl): ValidationErrors | null {
   const newPassword = control.get('newPassword')?.value;
@@ -39,12 +40,52 @@ export class SettingsComponent implements OnInit {
   errorMessage = '';
   successMessage = '';
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private uploadService: UploadService) {}
+  aboutPhotoUrl = '';
+  uploadingAboutPhoto = false;
+  aboutPhotoError = '';
+  aboutPhotoSuccess = '';
+
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private uploadService: UploadService,
+    private siteContentService: SiteContentService
+  ) {}
 
   ngOnInit(): void {
     this.profileForm.patchValue({
       username: this.authService.username || '',
       photo: this.authService.photo || ''
+    });
+
+    this.siteContentService.getAboutPhoto().subscribe({
+      next: (res) => (this.aboutPhotoUrl = res.url || ''),
+      error: () => (this.aboutPhotoUrl = '')
+    });
+  }
+
+  onAboutPhotoSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file) {
+      return;
+    }
+
+    this.aboutPhotoError = '';
+    this.aboutPhotoSuccess = '';
+    this.uploadingAboutPhoto = true;
+    this.siteContentService.updateAboutPhoto(file).subscribe({
+      next: (res) => {
+        this.aboutPhotoUrl = res.url;
+        this.uploadingAboutPhoto = false;
+        this.aboutPhotoSuccess = 'About section photo updated.';
+        input.value = '';
+      },
+      error: () => {
+        this.aboutPhotoError = 'Photo upload failed. Please try again.';
+        this.uploadingAboutPhoto = false;
+        input.value = '';
+      }
     });
   }
 

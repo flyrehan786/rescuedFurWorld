@@ -3,6 +3,7 @@ import { Cat } from '../../models/cat.model';
 import { GalleryImage } from '../../models/gallery-image.model';
 import { CatsService } from '../../services/cats.service';
 import { GalleryService } from '../../services/gallery.service';
+import { SiteContentService } from '../../services/site-content.service';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +21,14 @@ export class HomeComponent implements OnInit {
   readonly galleryPageSize = 8;
   galleryPage = 1;
 
-  constructor(private catsService: CatsService, private galleryService: GalleryService) {}
+  readonly defaultAboutPhoto = 'assets/about.jpg';
+  aboutPhotoUrl = this.defaultAboutPhoto;
+
+  constructor(
+    private catsService: CatsService,
+    private galleryService: GalleryService,
+    private siteContentService: SiteContentService
+  ) {}
 
   ngOnInit(): void {
     this.catsService.getCats().subscribe({
@@ -34,6 +42,11 @@ export class HomeComponent implements OnInit {
         this.galleryPage = 1;
       },
       error: () => (this.galleryImages = [])
+    });
+
+    this.siteContentService.getAboutPhoto().subscribe({
+      next: (res) => (this.aboutPhotoUrl = res.url || this.defaultAboutPhoto),
+      error: () => (this.aboutPhotoUrl = this.defaultAboutPhoto)
     });
   }
 
