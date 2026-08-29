@@ -24,25 +24,6 @@
   color: var(--color-text);
 }
 
-.header__logo {
-  height: 1.75rem;
-  width: auto;
-  display: block;
-}
-
-.header__divider {
-  width: 1px;
-  height: 1.4rem;
-  background: currentColor;
-  opacity: 0.3;
-}
-
-.header__name {
-  font-weight: 700;
-  font-style: italic;
-  font-size: 1.1rem;
-  letter-spacing: -0.01em;
-}
 
 .header__actions {
   display: flex;

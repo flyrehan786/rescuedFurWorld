@@ -44,26 +44,6 @@
   color: var(--color-text);
 }
 
-.admin__logo {
-  height: 1.75rem;
-  width: auto;
-  display: block;
-}
-
-.admin__divider {
-  width: 1px;
-  height: 1.4rem;
-  background: currentColor;
-  opacity: 0.3;
-}
-
-.admin__name {
-  font-weight: 700;
-  font-style: italic;
-  font-size: 1.1rem;
-  letter-spacing: -0.01em;
-}
-
 .admin__badge {
   font-size: 0.7rem;
   text-transform: uppercase;

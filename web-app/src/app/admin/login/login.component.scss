@@ -33,25 +33,6 @@
   margin-bottom: 1.25rem;
 }
 
-.login__brand-logo {
-  height: 3.5rem;
-  width: auto;
-}
-
-.login__brand-divider {
-  width: 1px;
-  height: 2.25rem;
-  background: rgba(255, 255, 255, 0.4);
-}
-
-.login__brand-name {
-  font-size: 2rem;
-  font-weight: 700;
-  font-style: italic;
-  color: #fff;
-  letter-spacing: -0.01em;
-}
-
 .login__brand-tagline {
   color: rgba(255, 255, 255, 0.85);
   font-size: 1.05rem;
@@ -183,27 +164,6 @@
   align-items: center;
   gap: 0.5rem;
   margin-bottom: 1.25rem;
-}
-
-.login__logo {
-  height: 1.75rem;
-  width: auto;
-  display: block;
-}
-
-.login__divider {
-  width: 1px;
-  height: 1.4rem;
-  background: currentColor;
-  opacity: 0.3;
-}
-
-.login__logo-name {
-  font-weight: 700;
-  font-style: italic;
-  font-size: 1.1rem;
-  letter-spacing: -0.01em;
-  color: var(--color-text);
 }
 
 .login__card .form-field input {

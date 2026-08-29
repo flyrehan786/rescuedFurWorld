@@ -211,6 +211,36 @@ img {
   margin-bottom: 0.5rem;
 }
 
+/* Shared brand logo styles (header, footer, admin layout, login) — change size/appearance here once instead of per-component. */
+.brand-logo {
+  height: 1.75rem;
+  width: auto;
+  display: block;
+}
+
+.brand-logo--lg {
+  height: 3.5rem;
+}
+
+.brand-logo-divider {
+  width: 1px;
+  height: 1.4rem;
+  background: currentColor;
+  opacity: 0.3;
+}
+
+.brand-name {
+  font-weight: 100;
+  font-size: 1.1rem;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+}
+
+.brand-name--lg {
+  font-size: 2rem;
+  color: #fff;
+}
+
 /* Shared admin/form utility classes */
 .btn--small {
   padding: 0.45rem 0.9rem;
