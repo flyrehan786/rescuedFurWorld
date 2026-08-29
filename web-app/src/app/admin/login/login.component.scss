@@ -34,18 +34,8 @@
 }
 
 .login__brand-logo {
-  height: 3rem;
+  height: 3.5rem;
   width: auto;
-  animation: login-logo-float 3.5s ease-in-out infinite;
-}
-
-@keyframes login-logo-float {
-  0%, 100% {
-    transform: translateY(0) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-4px) rotate(-3deg);
-  }
 }
 
 .login__brand-divider {
@@ -196,20 +186,9 @@
 }
 
 .login__logo {
-  height: 1.4rem;
+  height: 1.75rem;
   width: auto;
   display: block;
-  animation: login-card-logo-float 3s ease-in-out infinite;
-  transform-origin: 50% 80%;
-}
-
-@keyframes login-card-logo-float {
-  0%, 100% {
-    transform: translateY(0) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-2px) rotate(-4deg);
-  }
 }
 
 .login__divider {

@@ -20,20 +20,9 @@
 }
 
 .footer__logo {
-  height: 1.2rem;
+  height: 1.5rem;
   width: auto;
   display: block;
-  animation: logo-float 3s ease-in-out infinite;
-  transform-origin: 50% 80%;
-}
-
-@keyframes logo-float {
-  0%, 100% {
-    transform: translateY(0) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-2px) rotate(-4deg);
-  }
 }
 
 .footer__divider {
