@@ -24,7 +24,7 @@
   background-size: 56px 56px;
   mask-image: radial-gradient(ellipse 85% 75% at 50% 35%, #000 40%, transparent 100%);
   -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 35%, #000 40%, transparent 100%);
-  animation: hero-grid-drift 24s linear infinite;
+  animation: hero-grid-drift 8s linear infinite;
 }
 
 @keyframes hero-bg-drift {
@@ -76,11 +76,7 @@
 .hero__media::before {
   content: '';
   position: absolute;
-  inset: -20%;
-  background: conic-gradient(from 0deg, color-mix(in srgb, var(--color-success) 60%, transparent), color-mix(in srgb, var(--color-accent) 45%, transparent), color-mix(in srgb, var(--color-success) 60%, transparent));
-  filter: blur(48px);
   z-index: -1;
-  animation: hero-glow-spin 12s linear infinite, hero-glow-pulse 6s ease-in-out infinite;
 }
 
 @keyframes hero-glow-spin {
@@ -107,8 +103,7 @@
   display: block;
   width: 100%;
   height: auto;
-  mask-image: radial-gradient(ellipse 78% 78% at 50% 50%, #000 60%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 78% 78% at 50% 50%, #000 60%, transparent 100%);
+  border-radius: 25px;
   transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), filter 0.7s ease;
   animation: hero-photo-float 5s ease-in-out infinite;
   will-change: transform;
@@ -133,12 +128,54 @@
 }
 
 .hero__frame {
+  position: relative;
   overflow: visible;
+}
+
+/* Small glowing spark that slowly orbits the photo's edge, gradually brightening/blurring as if separating from the border, then receding back into it. Positioned via left/top percentages (not transform) so the elliptical path matches the frame's actual aspect ratio. */
+.hero__frame-light {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, color-mix(in srgb, var(--color-success) 95%, white) 0%, color-mix(in srgb, var(--color-accent) 80%, white) 55%, transparent 75%);
+  box-shadow: 0 0 20px 6px color-mix(in srgb, var(--color-success) 55%, transparent);
+  animation: hero-frame-light-orbit 16s linear infinite, hero-frame-light-detach 8s ease-in-out infinite;
+}
+
+@keyframes hero-frame-light-orbit {
+  0%     { left: 90%;    top: 50%; }
+  8.33%  { left: 84.64%; top: 30%; }
+  16.66% { left: 70%;    top: 15.36%; }
+  25%    { left: 50%;    top: 10%; }
+  33.33% { left: 30%;    top: 15.36%; }
+  41.66% { left: 15.36%; top: 30%; }
+  50%    { left: 10%;    top: 50%; }
+  58.33% { left: 15.36%; top: 70%; }
+  66.66% { left: 30%;    top: 84.64%; }
+  75%    { left: 50%;    top: 90%; }
+  83.33% { left: 70%;    top: 84.64%; }
+  91.66% { left: 84.64%; top: 70%; }
+  100%   { left: 90%;    top: 50%; }
+}
+
+@keyframes hero-frame-light-detach {
+  0%, 100% {
+    opacity: 0.25;
+    filter: blur(1px);
+  }
+  50% {
+    opacity: 1;
+    filter: blur(3px);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .hero__media::before,
-  .hero__photo {
+  .hero__photo,
+  .hero__frame-light {
     animation: none;
   }
 }
